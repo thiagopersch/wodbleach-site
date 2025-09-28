@@ -2,7 +2,7 @@
 
 import type React from 'react';
 
-import { useImportMonsterXml } from '@/app/gameplay/monsters/_hooks/useMonsters';
+import { useImportMonsterXml } from '@/app/(pages)/gameplay/monsters/_hooks/useMonsters';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';

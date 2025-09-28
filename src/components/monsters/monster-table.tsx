@@ -1,6 +1,10 @@
 'use client';
 
-import { useDeleteMonster, useExportMonsterXml, useUpdateMonster } from '@/app/gameplay/monsters/_hooks/useMonsters';
+import {
+  useDeleteMonster,
+  useExportMonsterXml,
+  useUpdateMonster,
+} from '@/app/(pages)/gameplay/monsters/_hooks/useMonsters';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,14 +26,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import type { Monster } from '@/lib/db';
+import { Monster } from '@/lib/api/monsters/schemas';
 import {
   calculateDifficulty,
   formatExperience,
   getDifficultyColor,
   getRaceBackground,
   getRaceColor,
-} from '@/utils/monster-utils';
+} from '@/lib/api/monsters/utils/monster-utils';
 import { Download, Edit, Eye, MoreHorizontal, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { MonsterForm } from './forms/monster-form';
@@ -63,7 +67,7 @@ export function MonsterTable({ monsters, isLoading }: MonsterTableProps) {
 
   const handleExport = async (monster: Monster) => {
     try {
-      const xml = await exportXml.mutateAsync(monster.id ?? '');
+      const xml = await exportXml.mutateAsync(monster.id.toString());
 
       // Create download link
       const blob = new Blob([xml], { type: 'application/xml' });
@@ -82,13 +86,13 @@ export function MonsterTable({ monsters, isLoading }: MonsterTableProps) {
 
   const handleUpdateMonster = async (data: any) => {
     if (!editingMonster) return;
-    await updateMonster.mutateAsync({ id: editingMonster.id ?? '', data });
+    await updateMonster.mutateAsync({ id: editingMonster.id.toString(), data });
     setEditingMonster(null);
   };
 
   const handleConfirmDelete = async () => {
     if (!deletingMonster) return;
-    await deleteMonster.mutateAsync(deletingMonster.id ?? '');
+    await deleteMonster.mutateAsync(deletingMonster.id.toString());
     setDeletingMonster(null);
   };
 

@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import type { MonsterFormData } from '@/lib/api/monsters/schemas.ts';
-import { monsterToXml } from '@/utils/monster-utils';
+import { monsterToXml } from '@/lib/api/monsters/utils/monster-utils';
 import { Check, Copy } from 'lucide-react';
 import { useState } from 'react';
 

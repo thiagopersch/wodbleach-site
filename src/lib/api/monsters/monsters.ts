@@ -49,40 +49,10 @@ export const monstersApi = {
     const response = await api.post('/monsters/import', { xml });
     return response.data;
   },
-};
 
-// React Query hooks
-export const useMonsters = () => {
-  return {
-    useGetAll: () => ({
-      queryKey: ['monsters'],
-      queryFn: monstersApi.getAll,
-    }),
-
-    useGetById: (id: string) => ({
-      queryKey: ['monsters', id],
-      queryFn: () => monstersApi.getById(id),
-      enabled: !!id,
-    }),
-
-    useCreate: () => ({
-      mutationFn: monstersApi.create,
-    }),
-
-    useUpdate: () => ({
-      mutationFn: ({ id, data }: { id: string; data: Partial<MonsterFormData> }) => monstersApi.update(id, data),
-    }),
-
-    useDelete: () => ({
-      mutationFn: monstersApi.delete,
-    }),
-
-    useExportXml: () => ({
-      mutationFn: monstersApi.exportToXml,
-    }),
-
-    useImportXml: () => ({
-      mutationFn: monstersApi.importFromXml,
-    }),
-  };
+  // Get monster statistics
+  getStats: async () => {
+    const response = await api.get('/monsters/stats');
+    return response.data;
+  },
 };

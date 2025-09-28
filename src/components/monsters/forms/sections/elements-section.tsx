@@ -49,7 +49,7 @@ export function ElementsSection({ form }: ElementsSectionProps) {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               <FormField
                 control={form.control}
-                name="element_firePercent"
+                name="element_fire_percent"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Fire %</FormLabel>
@@ -64,7 +64,7 @@ export function ElementsSection({ form }: ElementsSectionProps) {
 
               <FormField
                 control={form.control}
-                name="element_energyPercent"
+                name="element_energy_percent"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Energy %</FormLabel>
@@ -79,7 +79,7 @@ export function ElementsSection({ form }: ElementsSectionProps) {
 
               <FormField
                 control={form.control}
-                name="element_icePercent"
+                name="element_ice_percent"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Ice %</FormLabel>
@@ -94,7 +94,7 @@ export function ElementsSection({ form }: ElementsSectionProps) {
 
               <FormField
                 control={form.control}
-                name="element_poisonPercent"
+                name="element_poison_percent"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Poison %</FormLabel>
@@ -109,7 +109,7 @@ export function ElementsSection({ form }: ElementsSectionProps) {
 
               <FormField
                 control={form.control}
-                name="element_holyPercent"
+                name="element_holy_percent"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Holy %</FormLabel>
@@ -124,7 +124,7 @@ export function ElementsSection({ form }: ElementsSectionProps) {
 
               <FormField
                 control={form.control}
-                name="element_deathPercent"
+                name="element_death_percent"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Death %</FormLabel>
@@ -139,7 +139,7 @@ export function ElementsSection({ form }: ElementsSectionProps) {
 
               <FormField
                 control={form.control}
-                name="element_drownPercent"
+                name="element_drown_percent"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Drown %</FormLabel>
@@ -154,7 +154,7 @@ export function ElementsSection({ form }: ElementsSectionProps) {
 
               <FormField
                 control={form.control}
-                name="element_physicalPercent"
+                name="element_physical_percent"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Physical %</FormLabel>
@@ -169,7 +169,7 @@ export function ElementsSection({ form }: ElementsSectionProps) {
 
               <FormField
                 control={form.control}
-                name="element_lifeDrainPercent"
+                name="element_lifeDrain_percent"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Life Drain %</FormLabel>
@@ -184,7 +184,7 @@ export function ElementsSection({ form }: ElementsSectionProps) {
 
               <FormField
                 control={form.control}
-                name="element_manaDrainPercent"
+                name="element_manaDrain_percent"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Mana Drain %</FormLabel>
@@ -199,7 +199,7 @@ export function ElementsSection({ form }: ElementsSectionProps) {
 
               <FormField
                 control={form.control}
-                name="element_healingPercent"
+                name="element_healing_percent"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Healing %</FormLabel>
@@ -214,7 +214,7 @@ export function ElementsSection({ form }: ElementsSectionProps) {
 
               <FormField
                 control={form.control}
-                name="element_undefinedPercent"
+                name="element_undefined_percent"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Undefined %</FormLabel>

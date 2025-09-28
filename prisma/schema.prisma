@@ -1,0 +1,737 @@
+generator client {
+  provider = "prisma-client-js"
+  /**
+   * output   = "../src/generated/prisma"
+   */
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(32)
+  password  String   @db.VarChar(255) // SHA1 hash
+  premdays  Int      @default(0)
+  lastday   Int      @default(0) @db.UnsignedInt
+  email     String   @default("") @db.VarChar(255)
+  key       String   @default("0") @db.VarChar(32)
+  blocked   Boolean  @default(false)
+  warnings  Int      @default(0)
+  groupId   Int      @default(1) @map("group_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  players     Player[]
+  accountVips AccountViplist[]
+
+  @@map("accounts")
+}
+
+model Player {
+  id              Int     @id @default(autoincrement())
+  name            String  @db.VarChar(255)
+  worldId         Int     @default(0) @map("world_id") @db.TinyInt
+  groupId         Int     @default(1) @map("group_id")
+  accountId       Int     @map("account_id")
+  level           Int     @default(1)
+  vocation        Int     @default(0)
+  health          Int     @default(150)
+  healthmax       Int     @default(150)
+  experience      BigInt  @default(0)
+  lookhead        Int     @default(0)
+  lookbody        Int     @default(0)
+  looklegs        Int     @default(0)
+  lookfeet        Int     @default(0)
+  looktype        Int     @default(136)
+  lookaddons      Int     @default(0)
+  maglevel        Int     @default(0)
+  mana            Int     @default(0)
+  manamax         Int     @default(0)
+  manaspent       Int     @default(0)
+  soul            Int     @default(0) @db.UnsignedInt
+  townId          Int     @default(0) @map("town_id")
+  posx            Int     @default(0)
+  posy            Int     @default(0)
+  posz            Int     @default(0)
+  conditions      Bytes
+  cap             Int     @default(0)
+  sex             Int     @default(0)
+  lastlogin       BigInt  @default(0) @db.UnsignedBigInt
+  lastip          Int     @default(0) @db.UnsignedInt
+  save            Boolean @default(true)
+  skull           Int     @default(0) @db.UnsignedTinyInt
+  skulltime       Int     @default(0)
+  rankId          Int     @default(0) @map("rank_id")
+  guildnick       String  @default("") @db.VarChar(255)
+  lastlogout      BigInt  @default(0) @db.UnsignedBigInt
+  blessings       Int     @default(0) @db.TinyInt
+  balance         BigInt  @default(0)
+  stamina         BigInt  @default(151200000)
+  direction       Int     @default(2)
+  lossExperience  Int     @default(100) @map("loss_experience")
+  lossMana        Int     @default(100) @map("loss_mana")
+  lossSkills      Int     @default(100) @map("loss_skills")
+  lossContainers  Int     @default(100) @map("loss_containers")
+  lossItems       Int     @default(100) @map("loss_items")
+  premend         Int     @default(0)
+  online          Boolean @default(false)
+  marriage        Int     @default(0) @db.UnsignedInt
+  promotion       Int     @default(0)
+  deleted         Int     @default(0)
+  description     String  @default("") @db.VarChar(255)
+  cast            Int     @default(0) @db.TinyInt
+  castViewers     Int     @default(0)
+  castDescription String  @default("") @db.VarChar(255)
+  healthSkill     Int     @default(0) @map("health_skill")
+  manaSkill       Int     @default(0) @map("mana_skill")
+  bendSkill       Int     @default(0) @map("bend_skill")
+  dodgeSkill      Int     @default(0) @map("dodge_skill")
+  resets          Int     @default(0)
+  skillPoints     Int     @default(0) @map("skill_points")
+  onlineTime      Int     @default(0) @map("online_time")
+
+  // Relations
+  account       Account           @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  deaths        PlayerDeath[]
+  skills        PlayerSkill[]
+  spells        PlayerSpell[]
+  storage       PlayerStorage[]
+  items         PlayerItem[]
+  depotItems    PlayerDepotItem[]
+  namelocks     PlayerNamelock[]
+  viplist       PlayerViplist[]
+  vipOf         PlayerViplist[]   @relation("VipTarget")
+  accountVips   AccountViplist[]
+  killers       PlayerKiller[]
+  reports       ServerReport[]
+  houseAuctions HouseAuction[]
+  guildInvites  GuildInvite[]
+
+  @@unique([name, deleted])
+  @@index([accountId])
+  @@index([groupId])
+  @@index([online])
+  @@index([deleted])
+  @@map("players")
+}
+
+model Monster {
+  id          Int         @id @default(autoincrement())
+  name        String      @unique @db.VarChar(255)
+  description String?     @db.Text
+  race        MonsterRace
+  experience  Int         @default(0)
+  speed       Int         @default(200)
+  manacost    Int         @default(0)
+  skull       Int         @default(0)
+
+  // Health
+  healthNow Int @default(100) @map("health_now")
+  healthMax Int @default(100) @map("health_max")
+
+  // Look
+  lookTypeId Int @default(130) @map("look_type_id")
+  lookHead   Int @default(0) @map("look_head")
+  lookBody   Int @default(0) @map("look_body")
+  lookLegs   Int @default(0) @map("look_legs")
+  lookFeet   Int @default(0) @map("look_feet")
+  lookAddons Int @default(0) @map("look_addons")
+  lookTypex  Int @default(0) @map("look_typex")
+  lookMount  Int @default(0) @map("look_mount")
+  lookCorpse Int @default(0) @map("look_corpse")
+
+  // Image
+  imageUrl String? @map("image_url") @db.VarChar(500)
+
+  // Target Change
+  targetchangeInterval Int @default(2000) @map("targetchange_interval")
+  targetchangeChance   Int @default(10) @map("targetchange_chance")
+
+  // Strategy
+  isStrategy      Boolean @default(false) @map("is_strategy")
+  strategyAttack  Int     @default(100) @map("strategy_attack")
+  strategyDefense Int     @default(20) @map("strategy_defense")
+
+  // Flags
+  flag_summonable         Boolean @default(false)
+  flag_attackable         Boolean @default(true)
+  flag_hostile            Boolean @default(true)
+  flag_illusionable       Boolean @default(true)
+  flag_convinceable       Boolean @default(false)
+  flag_pushable           Boolean @default(false)
+  flag_canpushitems       Boolean @default(false)
+  flag_canpushcreatures   Boolean @default(false)
+  flag_hidename           Boolean @default(false)
+  flag_hidehealth         Boolean @default(false)
+  flag_lightlevel         Boolean @default(false)
+  flag_lightcolor         Boolean @default(false)
+  flag_lootmessage        Boolean @default(false)
+  flag_lureable           Boolean @default(false)
+  flag_walkable           Boolean @default(false)
+  flag_shield             Int     @default(0)
+  flag_emblem             Int     @default(0)
+  flag_skull              Int     @default(0)
+  flag_targetDistance     Int     @default(1) @map("target_distance")
+  flag_staticAttackChance Int     @default(95) @map("static_attack_chance")
+  flag_runonHealth        Int     @default(0) @map("run_health")
+  flag_maxSummons         Int     @default(0) @map("max_summons")
+  flag_fleesHealth        Int     @default(0) @map("flees_health")
+  flag_pushObjects        Boolean @default(true) @map("push_objects")
+  flag_pushCreatures      Boolean @default(false) @map("push_creatures")
+  flag_targetChange       Int     @default(0) @map("target_change")
+
+  // Immunities
+  immunity_physical  Boolean @default(false)
+  immunity_energy    Boolean @default(false)
+  immunity_fire      Boolean @default(false)
+  immunity_poison    Boolean @default(false)
+  immunity_ice       Boolean @default(false)
+  immunity_holy      Boolean @default(false)
+  immunity_death     Boolean @default(false)
+  immunity_drown     Boolean @default(false)
+  immunity_lifedrain Boolean @default(false)
+  immunity_manadrain Boolean @default(false)
+  immunity_paralyze  Boolean @default(false)
+  immunity_outfit    Boolean @default(false)
+  immunity_drunk     Boolean @default(false)
+  immunity_invisible Boolean @default(false)
+
+  // Elemental Resistances
+  elements_fire_percent      String @db.VarChar(5)
+  elements_energy_percent    String @db.VarChar(5)
+  elements_ice_percent       String @db.VarChar(5)
+  elements_poison_percent    String @db.VarChar(5)
+  elements_holy_percent      String @db.VarChar(5)
+  elements_death_percent     String @db.VarChar(5)
+  elements_drown_percent     String @db.VarChar(5)
+  elements_physical_percent  String @db.VarChar(5)
+  elements_lifedrain_percent String @db.VarChar(5)
+  elements_manadrain_percent String @db.VarChar(5)
+  elements_healing_percent   String @db.VarChar(5)
+  elements_undefined_percent String @db.VarChar(5)
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  attacks  MonsterAttack[]
+  defenses MonsterDefense[]
+  voices   MonsterVoice[]
+  summons  MonsterSummon[]
+  loot     MonsterLoot[]
+  events   MonsterEvent[]
+
+  @@map("monsters")
+}
+
+model MonsterAttack {
+  id                     Int     @id @default(autoincrement())
+  monsterId              Int     @map("monster_id")
+  name                   String  @db.VarChar(100)
+  interval               Int     @default(2000)
+  chance                 Int     @default(100)
+  range                  Int     @default(1)
+  min                    Int     @default(0)
+  max                    Int     @default(0)
+  is_attack_simple       Boolean @default(false) @map("is_attack_simple")
+  speedchange            Int     @default(0)
+  duration               Int     @default(0)
+  target                 Int     @default(0)
+  attack_attribute_key   String  @default("") @db.VarChar(100)
+  attack_attribute_value String  @default("") @db.VarChar(100)
+
+  monster Monster @relation(fields: [monsterId], references: [id], onDelete: Cascade)
+
+  @@index([monsterId])
+  @@map("monster_attacks")
+}
+
+model MonsterDefense {
+  id              Int    @id @default(autoincrement())
+  monsterId       Int    @map("monster_id")
+  name            String @db.VarChar(100)
+  interval        Int    @default(2000)
+  chance          Int    @default(100)
+  min             Int    @default(0)
+  max             Int    @default(0)
+  speedchange     Int    @default(0)
+  duration        Int    @default(0)
+  attribute_key   String @default("") @db.VarChar(100)
+  attribute_value String @default("") @db.VarChar(100)
+
+  monster Monster @relation(fields: [monsterId], references: [id], onDelete: Cascade)
+
+  @@index([monsterId])
+  @@map("monster_defenses")
+}
+
+model MonsterVoice {
+  id        Int     @id @default(autoincrement())
+  monsterId Int     @map("monster_id")
+  interval  Int     @default(2000)
+  chance    Int     @default(100)
+  sentence  String  @db.VarChar(255)
+  yell      Boolean @default(false)
+
+  monster Monster @relation(fields: [monsterId], references: [id], onDelete: Cascade)
+
+  @@index([monsterId])
+  @@map("monster_voices")
+}
+
+model MonsterSummon {
+  id         Int    @id @default(autoincrement())
+  monsterId  Int    @map("monster_id")
+  maxSummons Int    @default(1) @map("max_summons")
+  name       String @db.VarChar(100)
+  interval   Int    @default(1000)
+  chance     Int    @default(100)
+  max        Int    @default(1)
+
+  monster Monster @relation(fields: [monsterId], references: [id], onDelete: Cascade)
+
+  @@index([monsterId])
+  @@map("monster_summons")
+}
+
+model MonsterLoot {
+  id                  Int     @id @default(autoincrement())
+  monsterId           Int     @map("monster_id")
+  is_loot             Boolean @default(true) @map("is_loot")
+  is_inside_container Boolean @default(false) @map("is_inside_container")
+  itemId              Int?    @map("item_id")
+  itemName            String? @map("item_name") @db.VarChar(100)
+  chance              Int     @default(10000)
+  countMax            Int?    @default(1) @map("count_max")
+
+  monster Monster @relation(fields: [monsterId], references: [id], onDelete: Cascade)
+
+  @@index([monsterId])
+  @@map("monster_loot")
+}
+
+model MonsterEvent {
+  id        Int    @id @default(autoincrement())
+  monsterId Int    @map("monster_id")
+  name      String @db.VarChar(100)
+
+  monster Monster @relation(fields: [monsterId], references: [id], onDelete: Cascade)
+
+  @@index([monsterId])
+  @@map("monster_events")
+}
+
+enum MonsterRace {
+  blood
+  energy
+  fire
+  venom
+  undead
+}
+
+model AccountViplist {
+  accountId Int @map("account_id")
+  worldId   Int @default(0) @map("world_id") @db.TinyInt
+  playerId  Int @map("player_id")
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  player  Player  @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([accountId, playerId])
+  @@index([accountId])
+  @@index([playerId])
+  @@index([worldId])
+  @@map("account_viplist")
+}
+
+model PlayerDeath {
+  id       Int    @id @default(autoincrement())
+  playerId Int    @map("player_id")
+  date     BigInt @db.UnsignedBigInt
+  level    Int    @db.UnsignedInt
+
+  player     Player      @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  killers    Killer[]
+  guildKills GuildKill[]
+
+  @@index([date])
+  @@map("player_deaths")
+}
+
+model PlayerDepotItem {
+  playerId   Int   @map("player_id")
+  sid        Int
+  pid        Int   @default(0)
+  itemtype   Int
+  count      Int   @default(0)
+  attributes Bytes
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([playerId, sid])
+  @@index([playerId])
+  @@map("player_depotitems")
+}
+
+model PlayerItem {
+  playerId   Int   @map("player_id")
+  pid        Int   @default(0)
+  sid        Int   @default(0)
+  itemtype   Int   @default(0)
+  count      Int   @default(0)
+  attributes Bytes
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([playerId, sid])
+  @@index([playerId])
+  @@map("player_items")
+}
+
+model PlayerNamelock {
+  playerId Int    @map("player_id")
+  name     String @db.VarChar(255)
+  newName  String @map("new_name") @db.VarChar(255)
+  date     BigInt @default(0)
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@id([playerId, date])
+  @@index([playerId])
+  @@map("player_namelocks")
+}
+
+model PlayerSkill {
+  playerId Int @map("player_id")
+  skillid  Int @db.TinyInt
+  value    Int @default(0) @db.UnsignedInt
+  count    Int @default(0) @db.UnsignedInt
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([playerId, skillid])
+  @@index([playerId])
+  @@map("player_skills")
+}
+
+model PlayerSpell {
+  playerId Int    @map("player_id")
+  name     String @db.VarChar(255)
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([playerId, name])
+  @@index([playerId])
+  @@map("player_spells")
+}
+
+model PlayerStorage {
+  playerId Int    @map("player_id")
+  key      Int    @db.UnsignedInt
+  value    String @default("0") @db.VarChar(255)
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([playerId, key])
+  @@index([playerId])
+  @@map("player_storage")
+}
+
+model PlayerViplist {
+  playerId Int @map("player_id")
+  vipId    Int @map("vip_id")
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  vip    Player @relation("VipTarget", fields: [vipId], references: [id], onDelete: Cascade)
+
+  @@unique([playerId, vipId])
+  @@index([playerId])
+  @@index([vipId])
+  @@map("player_viplist")
+}
+
+model Killer {
+  id          Int     @id @default(autoincrement())
+  deathId     Int     @map("death_id")
+  finalHit    Boolean @default(false) @map("final_hit")
+  unjustified Boolean @default(false)
+  war         Int     @default(0)
+
+  death             PlayerDeath        @relation(fields: [deathId], references: [id], onDelete: Cascade)
+  playerKillers     PlayerKiller[]
+  environmentKiller EnvironmentKiller?
+  guildKills        GuildKill[]
+
+  @@map("killers")
+}
+
+model PlayerKiller {
+  killId   Int @map("kill_id")
+  playerId Int @map("player_id")
+
+  killer Killer @relation(fields: [killId], references: [id], onDelete: Cascade)
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@id([killId, playerId])
+  @@map("player_killers")
+}
+
+model EnvironmentKiller {
+  killId Int    @id @map("kill_id")
+  name   String @db.VarChar(255)
+
+  killer Killer @relation(fields: [killId], references: [id], onDelete: Cascade)
+
+  @@map("environment_killers")
+}
+
+model House {
+  id          Int     @db.UnsignedInt
+  worldId     Int     @default(0) @map("world_id") @db.TinyInt
+  owner       Int
+  paid        Int     @default(0) @db.UnsignedInt
+  warnings    Int     @default(0)
+  lastwarning Int     @default(0) @db.UnsignedInt
+  name        String  @db.VarChar(255)
+  town        Int     @default(0) @db.UnsignedInt
+  size        Int     @default(0) @db.UnsignedInt
+  price       Int     @default(0) @db.UnsignedInt
+  rent        Int     @default(0) @db.UnsignedInt
+  doors       Int     @default(0) @db.UnsignedInt
+  beds        Int     @default(0) @db.UnsignedInt
+  tiles       Int     @default(0) @db.UnsignedInt
+  guild       Boolean @default(false)
+  clear       Boolean @default(false)
+
+  auctions HouseAuction?
+  lists    HouseList[]
+  data     HouseData?
+  tiles_   Tile[]
+
+  @@unique([id, worldId])
+  @@map("houses")
+}
+
+model HouseAuction {
+  houseId  Int    @map("house_id") @db.UnsignedInt
+  worldId  Int    @default(0) @map("world_id") @db.TinyInt
+  playerId Int    @map("player_id")
+  bid      Int    @default(0) @db.UnsignedInt
+  limit    Int    @default(0) @db.UnsignedInt
+  endtime  BigInt @default(0) @db.UnsignedBigInt
+
+  house  House  @relation(fields: [houseId, worldId], references: [id, worldId], onDelete: Cascade)
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([houseId, worldId])
+  @@map("house_auctions")
+}
+
+model HouseList {
+  houseId Int    @map("house_id") @db.UnsignedInt
+  worldId Int    @default(0) @map("world_id") @db.TinyInt
+  listid  Int
+  list    String @db.Text
+
+  house House @relation(fields: [houseId, worldId], references: [id, worldId], onDelete: Cascade)
+
+  @@unique([houseId, worldId, listid])
+  @@map("house_lists")
+}
+
+model HouseData {
+  houseId Int   @map("house_id") @db.UnsignedInt
+  worldId Int   @default(0) @map("world_id") @db.TinyInt
+  data    Bytes @db.LongBlob
+
+  house House @relation(fields: [houseId, worldId], references: [id, worldId], onDelete: Cascade)
+
+  @@unique([houseId, worldId])
+  @@map("house_data")
+}
+
+model Tile {
+  id      Int @db.UnsignedInt
+  worldId Int @default(0) @map("world_id") @db.TinyInt
+  houseId Int @map("house_id") @db.UnsignedInt
+  x       Int @db.UnsignedInt
+  y       Int @db.UnsignedInt
+  z       Int @db.UnsignedTinyInt
+
+  house House      @relation(fields: [houseId, worldId], references: [id, worldId], onDelete: Cascade)
+  items TileItem[]
+
+  @@unique([id, worldId])
+  @@index([x, y, z])
+  @@map("tiles")
+}
+
+model TileItem {
+  tileId     Int   @map("tile_id") @db.UnsignedInt
+  worldId    Int   @default(0) @map("world_id") @db.TinyInt
+  sid        Int
+  pid        Int   @default(0)
+  itemtype   Int
+  count      Int   @default(0)
+  attributes Bytes
+
+  tile Tile @relation(fields: [tileId, worldId], references: [id, worldId], onDelete: Cascade)
+
+  @@unique([tileId, worldId, sid])
+  @@index([sid])
+  @@map("tile_items")
+}
+
+model Guild {
+  id           Int    @id @default(autoincrement())
+  worldId      Int    @default(0) @map("world_id") @db.TinyInt
+  name         String @db.VarChar(255)
+  ownerid      Int
+  creationdata Int
+  checkdata    Int
+  motd         String @db.VarChar(255)
+  balance      BigInt @default(0) @db.UnsignedBigInt
+
+  invites    GuildInvite[]
+  ranks      GuildRank[]
+  wars       GuildWar[]    @relation("GuildWars")
+  enemyWars  GuildWar[]    @relation("EnemyWars")
+  guildKills GuildKill[]
+
+  @@unique([name, worldId])
+  @@map("guilds")
+}
+
+model GuildInvite {
+  playerId Int @map("player_id")
+  guildId  Int @map("guild_id")
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  guild  Guild  @relation(fields: [guildId], references: [id], onDelete: Cascade)
+
+  @@unique([playerId, guildId])
+  @@map("guild_invites")
+}
+
+model GuildRank {
+  id      Int    @id @default(autoincrement())
+  guildId Int    @map("guild_id")
+  name    String @db.VarChar(255)
+  level   Int
+
+  guild Guild @relation(fields: [guildId], references: [id], onDelete: Cascade)
+
+  @@map("guild_ranks")
+}
+
+model GuildWar {
+  id         Int    @id @default(autoincrement())
+  guildId    Int    @map("guild_id")
+  enemyId    Int    @map("enemy_id")
+  begin      BigInt @default(0)
+  end        BigInt @default(0)
+  frags      Int    @default(0) @db.UnsignedInt
+  payment    BigInt @default(0) @db.UnsignedBigInt
+  guildKills Int    @default(0) @map("guild_kills") @db.UnsignedInt
+  enemyKills Int    @default(0) @map("enemy_kills") @db.UnsignedInt
+  status     Int    @default(0) @db.UnsignedTinyInt
+
+  guild       Guild       @relation("GuildWars", fields: [guildId], references: [id], onDelete: Cascade)
+  enemy       Guild       @relation("EnemyWars", fields: [enemyId], references: [id], onDelete: Cascade)
+  guildKills_ GuildKill[]
+
+  @@index([status])
+  @@index([guildId])
+  @@index([enemyId])
+  @@map("guild_wars")
+}
+
+model GuildKill {
+  id      Int @id @default(autoincrement())
+  guildId Int @map("guild_id")
+  warId   Int @map("war_id")
+  deathId Int @map("death_id")
+
+  guild  Guild       @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  war    GuildWar    @relation(fields: [warId], references: [id], onDelete: Cascade)
+  death  PlayerDeath @relation(fields: [deathId], references: [id], onDelete: Cascade, map: "guild_kills_death_fk")
+  killer Killer      @relation(fields: [deathId], references: [id], onDelete: Cascade, map: "guild_kills_killer_fk")
+
+  @@map("guild_kills")
+}
+
+model Ban {
+  id        Int     @id @default(autoincrement()) @db.UnsignedInt
+  type      Int     @db.TinyInt
+  value     Int     @db.UnsignedInt
+  param     Int     @default(4294967295) @db.UnsignedInt
+  active    Boolean @default(true)
+  expires   Int
+  added     Int     @db.UnsignedInt
+  adminId   Int     @default(0) @map("admin_id") @db.UnsignedInt
+  comment   String  @db.Text
+  reason    Int     @default(0) @db.UnsignedInt
+  action    Int     @default(0) @db.UnsignedInt
+  statement String  @default("") @db.VarChar(255)
+
+  @@index([type, value])
+  @@index([active])
+  @@map("bans")
+}
+
+model GlobalStorage {
+  key     Int    @db.UnsignedInt
+  worldId Int    @default(0) @map("world_id") @db.TinyInt
+  value   String @default("0") @db.VarChar(255)
+
+  @@unique([key, worldId])
+  @@map("global_storage")
+}
+
+model ServerConfig {
+  config String @unique @db.VarChar(35)
+  value  String @db.VarChar(255)
+
+  @@map("server_config")
+}
+
+model ServerMotd {
+  id      Int    @db.UnsignedInt
+  worldId Int    @default(0) @map("world_id") @db.TinyInt
+  text    String @db.Text
+
+  @@unique([id, worldId])
+  @@map("server_motd")
+}
+
+model ServerRecord {
+  record    Int
+  worldId   Int    @default(0) @map("world_id") @db.TinyInt
+  timestamp BigInt
+
+  @@unique([record, worldId, timestamp])
+  @@map("server_record")
+}
+
+model ServerReport {
+  id        Int    @id @default(autoincrement())
+  worldId   Int    @default(0) @map("world_id") @db.TinyInt
+  playerId  Int    @default(1) @map("player_id")
+  posx      Int    @default(0)
+  posy      Int    @default(0)
+  posz      Int    @default(0)
+  timestamp BigInt @default(0)
+  report    String @db.Text
+  reads     Int    @default(0)
+
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@index([worldId])
+  @@index([reads])
+  @@map("server_reports")
+}

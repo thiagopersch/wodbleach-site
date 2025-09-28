@@ -1,23 +1,23 @@
-import Navbar from '@/components/Navbar';
 import { RootProvider } from '@/providers/root-provider';
 import type { Metadata } from 'next';
-import { JetBrains_Mono, Poppins } from 'next/font/google';
+import { JetBrains_Mono, Montserrat } from 'next/font/google';
 import './globals.css';
 
-const poppins = Poppins({
-  variable: '--font-poppins',
+const montserrat = Montserrat({
+  variable: '--font-montserrat',
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
   subsets: ['latin'],
 });
 
 const jetBrainsMono = JetBrains_Mono({
   variable: '--font-jetBrainsMono',
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800'],
   subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
   title: 'WoDBleach',
-  description: 'Uma fusão direta de World of Dragon Ball com Bleach, evocando mundos colidindo!',
+  description: 'Uma fusão direta de Dragon Ball com Bleach, evocando mundos colididos!',
 };
 
 export default function RootLayout({
@@ -27,11 +27,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br" suppressHydrationWarning>
-      <body className={`${poppins.className} ${jetBrainsMono.variable} antialiased`}>
-        <RootProvider>
-          <Navbar />
-          {children}
-        </RootProvider>
+      <body className={`${montserrat.className} ${jetBrainsMono.variable} antialiased`}>
+        <RootProvider>{children}</RootProvider>
       </body>
     </html>
   );

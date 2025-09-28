@@ -1,10 +1,15 @@
 'use client';
 
-import { useMonsters } from '@/app/gameplay/monsters/_hooks/useMonsters';
+import { useMonsters } from '@/app/(pages)/gameplay/monsters/_hooks/useMonsters';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { calculateDifficulty, formatExperience, getRaceBackground, getRaceColor } from '@/utils/monster-utils';
+import {
+  calculateDifficulty,
+  formatExperience,
+  getRaceBackground,
+  getRaceColor,
+} from '@/lib/api/monsters/utils/monster-utils';
 import {
   Bar,
   BarChart,

@@ -76,8 +76,8 @@ export default function Navbar() {
           </Popover>
           {/* Main nav */}
           <div className="flex items-center gap-6">
-            <Link href="/" className="text-primary hover:text-primary/90">
-              LOGO
+            <Link href="/">
+              <Image src="/logo.png" alt="Logo" width={110} height={40} className="hidden md:inline" />
             </Link>
             {/* Navigation menu */}
             <NavigationMenu viewport={false} className="max-md:hidden">

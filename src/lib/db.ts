@@ -111,18 +111,18 @@ export interface Monster {
 
   // Elements
   is_elements: boolean;
-  element_firePercent: string;
-  element_energyPercent: string;
-  element_icePercent: string;
-  element_poisonPercent: string;
-  element_holyPercent: string;
-  element_deathPercent: string;
-  element_drownPercent: string;
-  element_physicalPercent: string;
-  element_lifeDrainPercent: string;
-  element_manaDrainPercent: string;
-  element_healingPercent: string;
-  element_undefinedPercent: string;
+  element_fire_percent: string;
+  element_energy_percent: string;
+  element_ice_percent: string;
+  element_poison_percent: string;
+  element_holy_percent: string;
+  element_death_percent: string;
+  element_drown_percent: string;
+  element_physical_percent: string;
+  element_lifeDrain_percent: string;
+  element_manaDrain_percent: string;
+  element_healing_percent: string;
+  element_undefined_percent: string;
 
   // Summons
   is_summons: boolean;
@@ -245,18 +245,18 @@ const sampleMonsters: Monster[] = [
     voice_sentence: 'MUHAHAHAHA!',
     voice_yell: true,
     is_elements: true,
-    element_firePercent: '100',
-    element_energyPercent: '50',
-    element_icePercent: '-12',
-    element_poisonPercent: '0',
-    element_holyPercent: '-12',
-    element_deathPercent: '20',
-    element_drownPercent: '0',
-    element_physicalPercent: '25',
-    element_lifeDrainPercent: '0',
-    element_manaDrainPercent: '0',
-    element_healingPercent: '0',
-    element_undefinedPercent: '0',
+    element_fire_percent: '100',
+    element_energy_percent: '50',
+    element_ice_percent: '-12',
+    element_poison_percent: '0',
+    element_holy_percent: '-12',
+    element_death_percent: '20',
+    element_drown_percent: '0',
+    element_physical_percent: '25',
+    element_lifeDrain_percent: '0',
+    element_manaDrain_percent: '0',
+    element_healing_percent: '0',
+    element_undefined_percent: '0',
     is_summons: true,
     summons_max: 1,
     summon_name: 'fire elemental',

@@ -11,7 +11,7 @@ import {
   getRaceBackground,
   getRaceColor,
   getSkullName,
-} from '@/utils/monster-utils';
+} from '@/lib/api/monsters/utils/monster-utils';
 import { Heart, Shield, Sword, Zap } from 'lucide-react';
 
 interface MonsterPreviewProps {
