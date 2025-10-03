@@ -11,12 +11,15 @@ import {
 } from '@/components/ui/navigation-menu';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Badge } from '../ui/badge';
+import UserAccountNav from './_components/UserAccount';
 import { navigationLinks } from './routes';
 
 export default function Navbar() {
+  const { data: session } = useSession();
   return (
     <header className="border-b px-4 md:px-6">
       <div className="flex h-16 items-center justify-between gap-4">
@@ -157,6 +160,18 @@ export default function Navbar() {
           >
             0 players online
           </Badge>
+        </div>
+        <div>
+          {session?.user && (
+            <UserAccountNav
+              user={{
+                id: session.user.id,
+                name: session.user.name || '',
+                email: session.user.email || '',
+                expires: session.expires || '',
+              }}
+            />
+          )}
         </div>
       </div>
     </header>

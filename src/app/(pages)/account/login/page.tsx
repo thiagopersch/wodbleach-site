@@ -1,5 +1,6 @@
 'use client';
 
+import Loading from '@/app/loading';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,16 +8,23 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LoginInput, loginSchema } from '../_hooks/validations';
 
-export default function LoginForm(props: any) {
+export default function LoginForm(props) {
   const [error, setError] = useState<string>('');
   const router = useRouter();
+  const { status } = useSession();
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.replace('/account/profile');
+    }
+  }, [status, router]);
 
   const {
     register,
@@ -45,13 +53,21 @@ export default function LoginForm(props: any) {
       if (result?.error) {
         setError('Invalid account name or password');
       } else {
-        router.push('/');
+        router.push('/account/profile');
         router.refresh();
       }
     } catch (error) {
       setError('An error occurred. Please try again.');
     }
   };
+
+  if (status === 'loading' || status === 'authenticated') {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <Card className="mx-auto mt-40 flex max-w-md flex-col justify-center space-y-6">

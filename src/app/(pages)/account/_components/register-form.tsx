@@ -1,5 +1,6 @@
 'use client';
 
+import { RegisterInput, registerSchema } from '@/app/(pages)/account/_hooks/validations';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,12 +8,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-
-import { RegisterInput, registerSchema } from '@/app/(pages)/account/_hooks/validations';
-import Link from 'next/link';
 
 export function RegisterForm() {
   const [error, setError] = useState<string>('');
@@ -41,10 +40,12 @@ export function RegisterForm() {
         },
         body: JSON.stringify({
           accountname: data.accountname,
-          password: data.password,
           email: data.email,
+          password: data.password,
         }),
       });
+
+      console.log(response);
 
       const result = await response.json();
 
@@ -102,18 +103,6 @@ export function RegisterForm() {
               disabled={isLoading}
             />
             {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
-            <Input
-              id="confirmPassword"
-              type="password"
-              placeholder="Confirm your password"
-              {...register('confirmPassword')}
-              disabled={isLoading}
-            />
-            {errors.confirmPassword && <p className="text-sm text-red-500">{errors.confirmPassword.message}</p>}
           </div>
 
           {error && (

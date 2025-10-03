@@ -24,8 +24,8 @@ export const monsterSchema = z
     skull: skullSchema.default(0),
 
     // Health
-    health_now: z.number().min(0, 'HP atual deve ser positivo').default(0),
-    health_max: z.number().min(1, 'HP máximo deve ser maior que 0').default(100),
+    healthNow: z.number().min(0, 'HP atual deve ser positivo').default(0),
+    healthMax: z.number().min(1, 'HP máximo deve ser maior que 0').default(100),
 
     // Look/Appearance
     look_type_id: z.number().min(0).default(0),
@@ -160,12 +160,12 @@ export const monsterSchema = z
   })
   .refine(
     (data) => {
-      // Validate that health_now doesn't exceed health_max
-      return data.health_now <= data.health_max;
+      // Validate that healthNow doesn't exceed healthMax
+      return data.healthNow <= data.healthMax;
     },
     {
       message: 'HP atual não pode ser maior que HP máximo',
-      path: ['health_now'],
+      path: ['healthNow'],
     },
   );
 
@@ -182,8 +182,8 @@ export const monsterFormSchema = z
     skull: skullSchema,
 
     // Health
-    health_now: z.number().min(0, 'HP atual deve ser positivo'),
-    health_max: z.number().min(1, 'HP máximo deve ser maior que 0'),
+    healthNow: z.number().min(0, 'HP atual deve ser positivo'),
+    healthMax: z.number().min(1, 'HP máximo deve ser maior que 0'),
 
     // Look/Appearance
     look_type_id: z.number().min(0),
@@ -318,12 +318,12 @@ export const monsterFormSchema = z
   })
   .refine(
     (data) => {
-      // Validate that health_now doesn't exceed health_max
-      return data.health_now <= data.health_max;
+      // Validate that healthNow doesn't exceed healthMax
+      return data.healthNow <= data.healthMax;
     },
     {
       message: 'HP atual não pode ser maior que HP máximo',
-      path: ['health_now'],
+      path: ['healthNow'],
     },
   );
 
@@ -344,8 +344,8 @@ export const basicInfoSchema = z.object({
 });
 
 export const healthSchema = z.object({
-  health_now: z.number().min(0, 'HP atual deve ser positivo'),
-  health_max: z.number().min(1, 'HP máximo deve ser maior que 0'),
+  healthNow: z.number().min(0, 'HP atual deve ser positivo'),
+  healthMax: z.number().min(1, 'HP máximo deve ser maior que 0'),
 });
 
 export const lookSchema = z.object({
@@ -376,8 +376,8 @@ export const defaultMonsterValues: MonsterFormData = {
   speed: 200,
   manacost: 0,
   skull: 0,
-  health_now: 0,
-  health_max: 100,
+  healthNow: 0,
+  healthMax: 100,
   look_type_id: 0,
   look_type_head: 0,
   look_type_body: 0,

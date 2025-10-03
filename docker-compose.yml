@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   db:
     image: mysql:8.0
@@ -38,6 +40,30 @@ services:
       NEXTAUTH_URL: ${NEXTAUTH_URL}
     ports:
       - '3000:3000'
+    volumes:
+      - .:/app:delegated
+      - /app/node_modules
+      - /app/.next
+    develop:
+      watch:
+        - action: rebuild
+          path: ./package.json
+        - action: rebuild
+          path: ./yarn.lock
+        - action: sync
+          path: ./app
+          target: /app/app
+        - action: sync
+          path: ./src
+          target: /app/src
+        - action: sync
+          path: ./public
+          target: /app/public
+        - action: sync
+          path: ./prisma
+          target: /app/prisma
+          ignore:
+            - ./prisma/migrations/
     networks:
       - app-network
 

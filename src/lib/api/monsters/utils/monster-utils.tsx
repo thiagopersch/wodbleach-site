@@ -4,7 +4,7 @@ import { Monster } from '../schemas';
 export function monsterToXml(monster: Monster): string {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <monster name="${monster.name}" nameDescription="${monster.description || `a ${monster.name.toLowerCase()}`}" race="${monster.race}" experience="${monster.experience}" speed="${monster.speed}"${monster.manacost > 0 ? ` manacost="${monster.manacost}"` : ''}>
-  <health now="${monster.health_now}" max="${monster.health_max}" />
+  <health now="${monster.healthNow}" max="${monster.healthMax}" />
   <look type="${monster.look_type_id}"${monster.look_type_corpse > 0 ? ` corpse="${monster.look_type_corpse}"` : ''}${monster.look_type_head > 0 ? ` head="${monster.look_type_head}"` : ''}${monster.look_type_body > 0 ? ` body="${monster.look_type_body}"` : ''}${monster.look_type_legs > 0 ? ` legs="${monster.look_type_legs}"` : ''}${monster.look_type_feet > 0 ? ` feet="${monster.look_type_feet}"` : ''} />
   ${monster.targetchange_interval > 0 || monster.targetchange_chance > 0 ? `<targetchange interval="${monster.targetchange_interval}" chance="${monster.targetchange_chance}" />` : ''}
   ${monster.is_strategy ? `<strategy attack="${monster.strategy_attack}" defense="${monster.strategy_defense}" />` : ''}
@@ -150,7 +150,7 @@ export function getSkullName(skull: number): string {
 
 // Calculate monster difficulty based on stats
 export function calculateDifficulty(monster: Monster): 'Easy' | 'Medium' | 'Hard' | 'Extreme' {
-  const score = monster.experience + monster.health_max / 10 + monster.speed / 10;
+  const score = monster.experience + monster.healthMax / 10 + monster.speed / 10;
 
   if (score < 100) return 'Easy';
   if (score < 1000) return 'Medium';

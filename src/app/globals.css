@@ -41,6 +41,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --animate-spin-slow: spin-slow 4s linear infinite;
 }
 
 :root {
@@ -118,9 +119,18 @@
   }
 
   html {
-    @apply bg-background text-foreground h-screen w-screen scroll-smooth font-sans;
+    @apply bg-background text-foreground h-dvh w-dvw scroll-smooth font-sans;
   }
   body {
     @apply bg-background text-foreground h-full w-full;
+  }
+
+  @keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 }

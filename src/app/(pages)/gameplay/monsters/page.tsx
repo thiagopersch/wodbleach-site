@@ -1,9 +1,5 @@
 'use client';
 
-import { MonsterForm } from '@/components/monsters/forms/monster-form';
-import { ImportXmlDialog } from '@/components/monsters/import-xml-dialog';
-import { MonsterStats } from '@/components/monsters/monster-stats';
-import { MonsterTable } from '@/components/monsters/monster-table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,6 +9,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { AuthGuard } from '@/providers/auth-guard';
 import { BarChart3, Plus, Search, Upload } from 'lucide-react';
 import { useState } from 'react';
+import { MonsterForm } from './_components/forms/monster-form';
+import { ImportXmlDialog } from './_components/import-xml-dialog';
+import { MonsterStats } from './_components/monster-stats';
+import { MonsterTable } from './_components/monster-table';
 import { useCreateMonster, useMonsters } from './_hooks/useMonsters';
 
 export default function HomePage(props) {
@@ -43,11 +43,11 @@ export default function HomePage(props) {
 
   return (
     <AuthGuard>
-      <div className="bg-background min-h-screen">
+      <div className="bg-background">
         {/* Header with actions */}
-        <div className="mb-8 flex items-center justify-between">
+        <div className="container mx-auto mb-8 flex items-center justify-between px-4 py-4">
           <div>
-            <h1 className="text-3xl font-bold text-balance">Monster Database</h1>
+            <h1 className="text-3xl font-bold text-balance">Cadastro dos Monstros</h1>
             <p className="text-muted-foreground text-pretty">Gerencie monstros para seu servidor OTServ de Tibia</p>
           </div>
           <div className="flex items-center gap-2">
@@ -59,7 +59,10 @@ export default function HomePage(props) {
               <Upload className="mr-2 h-4 w-4" />
               Importar XML
             </Button>
-            <Button onClick={() => setShowCreateDialog(true)}>
+            <Button
+              onClick={() => setShowCreateDialog(true)}
+              className="bg-emerald-500 text-white hover:bg-emerald-600"
+            >
               <Plus className="mr-2 h-4 w-4" />
               Novo Monstro
             </Button>
@@ -121,7 +124,7 @@ export default function HomePage(props) {
               <CardContent>
                 <div className="text-2xl font-bold">
                   {monsters.length > 0
-                    ? Math.round(monsters.reduce((sum, m) => sum + (m.health_max || 0), 0) / monsters.length)
+                    ? Math.round(monsters.reduce((sum, m) => sum + (m.healthMax || 0), 0) / monsters.length)
                     : 0}
                 </div>
                 <p className="text-muted-foreground text-xs">vida média</p>
@@ -133,7 +136,7 @@ export default function HomePage(props) {
           <Card className="mb-6">
             <CardHeader>
               <CardTitle>Filtros</CardTitle>
-              <CardDescription>Filtre e pesquise monstros</CardDescription>
+              <CardDescription>Filtre e pesquise os monstros</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col gap-4 sm:flex-row">

@@ -150,7 +150,7 @@ export function MonsterTable({ monsters, isLoading }: MonsterTableProps) {
                   </TableCell>
                   <TableCell>
                     <div className="font-mono text-sm">
-                      {monster.health_now}/{monster.health_max}
+                      {monster.healthNow}/{monster.healthMax}
                     </div>
                   </TableCell>
                   <TableCell>

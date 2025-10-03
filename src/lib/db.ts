@@ -10,8 +10,8 @@ export interface Monster {
   skull: number;
 
   // Health
-  health_now: number;
-  health_max: number;
+  healthNow: number;
+  healthMax: number;
 
   // Look/Appearance
   look_type_id: number;
@@ -162,8 +162,8 @@ const sampleMonsters: Monster[] = [
     speed: 280,
     manacost: 0,
     skull: 0,
-    health_now: 8200,
-    health_max: 8200,
+    healthNow: 8200,
+    healthMax: 8200,
     look_type_id: 35,
     look_type_head: 0,
     look_type_body: 0,
