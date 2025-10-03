@@ -1,9 +1,9 @@
 'use client';
 
+import type { MonsterFormData } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import type { MonsterFormData } from '@/lib/api/monsters/schemas.ts';
 import {
   calculateDifficulty,
   formatExperience,
@@ -19,15 +19,22 @@ interface MonsterPreviewProps {
 }
 
 export function MonsterPreview({ data }: MonsterPreviewProps) {
-  const healthPercentage = data.health_max > 0 ? (data.health_now / data.health_max) * 100 : 0;
+  const healthPercentage =
+    data.healthMax > 0 ? (data.healthNow / data.healthMax) * 100 : 0;
   const difficulty = calculateDifficulty(data as any);
 
   return (
     <div className="space-y-4">
       {/* Monster Header */}
       <div className="space-y-2 text-center">
-        <h3 className="text-xl font-bold text-balance">{data.name || 'Novo Monstro'}</h3>
-        {data.description && <p className="text-muted-foreground text-sm text-pretty">{data.description}</p>}
+        <h3 className="text-xl font-bold text-balance">
+          {data.name || 'Novo Monstro'}
+        </h3>
+        {data.description && (
+          <p className="text-muted-foreground text-sm text-pretty">
+            {data.description}
+          </p>
+        )}
         <div className="flex items-center justify-center gap-2">
           <Badge className={getRaceBackground(data.race)}>
             <span className={getRaceColor(data.race)}>{data.race}</span>
@@ -46,7 +53,7 @@ export function MonsterPreview({ data }: MonsterPreviewProps) {
             <div className="flex-1">
               <div className="text-muted-foreground text-xs">HP</div>
               <div className="font-mono text-sm">
-                {data.health_now}/{data.health_max}
+                {data.healthNow}/{data.healthMax}
               </div>
               <Progress value={healthPercentage} className="mt-1 h-1" />
             </div>
@@ -58,7 +65,9 @@ export function MonsterPreview({ data }: MonsterPreviewProps) {
             <Zap className="h-4 w-4 text-yellow-400" />
             <div className="flex-1">
               <div className="text-muted-foreground text-xs">XP</div>
-              <div className="font-mono text-sm">{formatExperience(data.experience)}</div>
+              <div className="font-mono text-sm">
+                {formatExperience(data.experience)}
+              </div>
             </div>
           </div>
         </Card>
@@ -110,7 +119,9 @@ export function MonsterPreview({ data }: MonsterPreviewProps) {
 
       {/* Flags Preview */}
       <div className="space-y-2">
-        <div className="text-muted-foreground text-xs font-medium">Flags Ativas:</div>
+        <div className="text-muted-foreground text-xs font-medium">
+          Flags Ativas:
+        </div>
         <div className="flex flex-wrap gap-1">
           {data.flag_summonable && (
             <Badge variant="secondary" className="text-xs">

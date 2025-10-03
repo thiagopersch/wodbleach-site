@@ -1,4 +1,4 @@
-import { Monster } from '../schemas';
+import { Monster } from '../../../../app/(pages)/gameplay/monsters/_hooks/schemas';
 
 // Convert monster data to XML format
 export function monsterToXml(monster: Monster): string {
@@ -127,7 +127,9 @@ export function getRaceBackground(race: string): string {
     venom: 'bg-green-500/10 border-green-500/20',
     undead: 'bg-gray-500/10 border-gray-500/20',
   };
-  return colors[race as keyof typeof colors] || 'bg-gray-500/10 border-gray-500/20';
+  return (
+    colors[race as keyof typeof colors] || 'bg-gray-500/10 border-gray-500/20'
+  );
 }
 
 // Format experience with thousands separator
@@ -149,8 +151,11 @@ export function getSkullName(skull: number): string {
 }
 
 // Calculate monster difficulty based on stats
-export function calculateDifficulty(monster: Monster): 'Easy' | 'Medium' | 'Hard' | 'Extreme' {
-  const score = monster.experience + monster.healthMax / 10 + monster.speed / 10;
+export function calculateDifficulty(
+  monster: Monster,
+): 'Easy' | 'Medium' | 'Hard' | 'Extreme' {
+  const score =
+    monster.experience + monster.healthMax / 10 + monster.speed / 10;
 
   if (score < 100) return 'Easy';
   if (score < 1000) return 'Medium';

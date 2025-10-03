@@ -1,7 +1,10 @@
 import { MonsterDB } from '@/lib/db';
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { defaultMonsterValues, monsterFormSchema } from '@/lib/api/monsters/schemas';
+import {
+  defaultMonsterValues,
+  monsterFormSchema,
+} from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
 import { z } from 'zod';
 
 // POST /api/monsters/import - Import monster from XML
@@ -11,7 +14,10 @@ export async function POST(request: NextRequest) {
     const { xml } = body;
 
     if (!xml || typeof xml !== 'string') {
-      return NextResponse.json({ error: 'XML content is required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'XML content is required' },
+        { status: 400 },
+      );
     }
 
     // Parse XML and convert to monster data
@@ -41,10 +47,16 @@ export async function POST(request: NextRequest) {
     }
 
     if (error instanceof Error && error.message.includes('XML')) {
-      return NextResponse.json({ error: 'Invalid XML format' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Invalid XML format' },
+        { status: 400 },
+      );
     }
 
-    return NextResponse.json({ error: 'Failed to import monster' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to import monster' },
+      { status: 500 },
+    );
   }
 }
 
@@ -95,10 +107,10 @@ function parseXmlToMonster(xml: string) {
       const attributes = healthMatch[1];
 
       const nowMatch = attributes.match(/now="(\d+)"/i);
-      if (nowMatch) monsterData.health_now = Number.parseInt(nowMatch[1]);
+      if (nowMatch) monsterData.healthNow = Number.parseInt(nowMatch[1]);
 
       const maxMatch = attributes.match(/max="(\d+)"/i);
-      if (maxMatch) monsterData.health_max = Number.parseInt(maxMatch[1]);
+      if (maxMatch) monsterData.healthMax = Number.parseInt(maxMatch[1]);
     }
 
     // Extract look
@@ -110,7 +122,8 @@ function parseXmlToMonster(xml: string) {
       if (typeMatch) monsterData.look_type_id = Number.parseInt(typeMatch[1]);
 
       const corpseMatch = attributes.match(/corpse="(\d+)"/i);
-      if (corpseMatch) monsterData.look_type_corpse = Number.parseInt(corpseMatch[1]);
+      if (corpseMatch)
+        monsterData.look_type_corpse = Number.parseInt(corpseMatch[1]);
     }
 
     // Extract strategy
@@ -119,10 +132,12 @@ function parseXmlToMonster(xml: string) {
       const attributes = strategyMatch[1];
 
       const attackMatch = attributes.match(/attack="(\d+)"/i);
-      if (attackMatch) monsterData.strategy_attack = Number.parseInt(attackMatch[1]);
+      if (attackMatch)
+        monsterData.strategy_attack = Number.parseInt(attackMatch[1]);
 
       const defenseMatch = attributes.match(/defense="(\d+)"/i);
-      if (defenseMatch) monsterData.strategy_defense = Number.parseInt(defenseMatch[1]);
+      if (defenseMatch)
+        monsterData.strategy_defense = Number.parseInt(defenseMatch[1]);
     }
 
     // Extract flags
@@ -158,7 +173,8 @@ function parseXmlToMonster(xml: string) {
 
         if (attributes.includes('targetdistance=')) {
           const match = attributes.match(/targetdistance="(\d+)"/i);
-          if (match) monsterData.flag_targetdistance = Number.parseInt(match[1]);
+          if (match)
+            monsterData.flag_targetdistance = Number.parseInt(match[1]);
         }
 
         if (attributes.includes('staticattack=')) {
@@ -174,10 +190,12 @@ function parseXmlToMonster(xml: string) {
       const attributes = defensesMatch[1];
 
       const armorMatch = attributes.match(/armor="(\d+)"/i);
-      if (armorMatch) monsterData.defenses_armor = Number.parseInt(armorMatch[1]);
+      if (armorMatch)
+        monsterData.defenses_armor = Number.parseInt(armorMatch[1]);
 
       const defenseMatch = attributes.match(/defense="(\d+)"/i);
-      if (defenseMatch) monsterData.defenses_defense = Number.parseInt(defenseMatch[1]);
+      if (defenseMatch)
+        monsterData.defenses_defense = Number.parseInt(defenseMatch[1]);
     }
 
     // Extract elements
@@ -230,7 +248,8 @@ function parseXmlToMonster(xml: string) {
       }
 
       const chanceMatch = attributes.match(/chance="(\d+)"/i);
-      if (chanceMatch) monsterData.voices_chance = Number.parseInt(chanceMatch[1]);
+      if (chanceMatch)
+        monsterData.voices_chance = Number.parseInt(chanceMatch[1]);
     }
 
     const voiceMatch = xml.match(/<voice\s+([^>]+)>/i);

@@ -1,9 +1,22 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import type { MonsterFormData } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import type { MonsterFormData } from '@/lib/api/monsters/schemas.ts';
 import type { UseFormReturn } from 'react-hook-form';
 
 interface LookSectionProps {
@@ -16,7 +29,9 @@ export function LookSection({ form }: LookSectionProps) {
       <Card>
         <CardHeader>
           <CardTitle>Aparência Visual</CardTitle>
-          <CardDescription>Configure como o monstro aparece no jogo</CardDescription>
+          <CardDescription>
+            Configure como o monstro aparece no jogo
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -32,7 +47,9 @@ export function LookSection({ form }: LookSectionProps) {
                       min="0"
                       placeholder="0"
                       {...field}
-                      onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                      onChange={(e) =>
+                        field.onChange(Number.parseInt(e.target.value) || 0)
+                      }
                     />
                   </FormControl>
                   <FormDescription>ID do sprite do monstro</FormDescription>
@@ -53,7 +70,9 @@ export function LookSection({ form }: LookSectionProps) {
                       min="0"
                       placeholder="0"
                       {...field}
-                      onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                      onChange={(e) =>
+                        field.onChange(Number.parseInt(e.target.value) || 0)
+                      }
                     />
                   </FormControl>
                   <FormDescription>ID do corpo quando morto</FormDescription>
@@ -79,7 +98,9 @@ export function LookSection({ form }: LookSectionProps) {
                         max="255"
                         placeholder="0"
                         {...field}
-                        onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -100,7 +121,9 @@ export function LookSection({ form }: LookSectionProps) {
                         max="255"
                         placeholder="0"
                         {...field}
-                        onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -121,7 +144,9 @@ export function LookSection({ form }: LookSectionProps) {
                         max="255"
                         placeholder="0"
                         {...field}
-                        onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -142,7 +167,9 @@ export function LookSection({ form }: LookSectionProps) {
                         max="255"
                         placeholder="0"
                         {...field}
-                        onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -165,7 +192,9 @@ export function LookSection({ form }: LookSectionProps) {
                       min="0"
                       placeholder="0"
                       {...field}
-                      onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                      onChange={(e) =>
+                        field.onChange(Number.parseInt(e.target.value) || 0)
+                      }
                     />
                   </FormControl>
                   <FormDescription>Addons do outfit</FormDescription>
@@ -186,7 +215,9 @@ export function LookSection({ form }: LookSectionProps) {
                       min="0"
                       placeholder="0"
                       {...field}
-                      onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                      onChange={(e) =>
+                        field.onChange(Number.parseInt(e.target.value) || 0)
+                      }
                     />
                   </FormControl>
                   <FormDescription>ID da montaria</FormDescription>
@@ -207,7 +238,9 @@ export function LookSection({ form }: LookSectionProps) {
                       min="0"
                       placeholder="0"
                       {...field}
-                      onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                      onChange={(e) =>
+                        field.onChange(Number.parseInt(e.target.value) || 0)
+                      }
                     />
                   </FormControl>
                   <FormDescription>Parâmetro adicional</FormDescription>

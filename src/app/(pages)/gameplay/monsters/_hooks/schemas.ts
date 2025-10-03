@@ -1,7 +1,13 @@
 import { z } from 'zod';
 
 // Race enum
-export const raceSchema = z.enum(['blood', 'energy', 'fire', 'venom', 'undead']);
+export const raceSchema = z.enum([
+  'blood',
+  'energy',
+  'fire',
+  'venom',
+  'undead',
+]);
 
 // Skull enum (0: nenhuma, 1: Amarela, 2: Verde, 3: Branca, 4: Vermelha, 5: Preta)
 export const skullSchema = z.number().min(0).max(5);
@@ -15,8 +21,14 @@ export const monsterSchema = z
     updated_at: z.string().optional(),
 
     // Basic info
-    name: z.string().min(1, 'Nome é obrigatório').max(100, 'Nome deve ter no máximo 100 caracteres'),
-    description: z.string().max(100, 'Descrição deve ter no máximo 100 caracteres').optional(),
+    name: z
+      .string()
+      .min(1, 'Nome é obrigatório')
+      .max(100, 'Nome deve ter no máximo 100 caracteres'),
+    description: z
+      .string()
+      .max(100, 'Descrição deve ter no máximo 100 caracteres')
+      .optional(),
     race: raceSchema,
     experience: z.number().min(0, 'Experiência deve ser positiva').default(0),
     speed: z.number().min(1, 'Velocidade deve ser maior que 0').default(200),
@@ -24,7 +36,7 @@ export const monsterSchema = z
     skull: skullSchema.default(0),
 
     // Health
-    healthNow: z.number().min(0, 'HP atual deve ser positivo').default(0),
+    healthNow: z.number().min(0, 'HP atual deve ser positivo').default(100),
     healthMax: z.number().min(1, 'HP máximo deve ser maior que 0').default(100),
 
     // Look/Appearance
@@ -173,8 +185,14 @@ export const monsterSchema = z
 export const monsterFormSchema = z
   .object({
     // Basic info
-    name: z.string().min(1, 'Nome é obrigatório').max(100, 'Nome deve ter no máximo 100 caracteres'),
-    description: z.string().max(100, 'Descrição deve ter no máximo 100 caracteres').optional(),
+    name: z
+      .string()
+      .min(1, 'Nome é obrigatório')
+      .max(100, 'Nome deve ter no máximo 100 caracteres'),
+    description: z
+      .string()
+      .max(100, 'Descrição deve ter no máximo 100 caracteres')
+      .optional(),
     race: raceSchema,
     experience: z.number().min(0, 'Experiência deve ser positiva'),
     speed: z.number().min(1, 'Velocidade deve ser maior que 0'),
@@ -334,8 +352,14 @@ export type Race = z.infer<typeof raceSchema>;
 
 // Individual section schemas for form organization
 export const basicInfoSchema = z.object({
-  name: z.string().min(1, 'Nome é obrigatório').max(100, 'Nome deve ter no máximo 100 caracteres'),
-  description: z.string().max(100, 'Descrição deve ter no máximo 100 caracteres').optional(),
+  name: z
+    .string()
+    .min(1, 'Nome é obrigatório')
+    .max(100, 'Nome deve ter no máximo 100 caracteres'),
+  description: z
+    .string()
+    .max(100, 'Descrição deve ter no máximo 100 caracteres')
+    .optional(),
   race: raceSchema,
   experience: z.number().min(0, 'Experiência deve ser positiva'),
   speed: z.number().min(1, 'Velocidade deve ser maior que 0'),
@@ -376,7 +400,7 @@ export const defaultMonsterValues: MonsterFormData = {
   speed: 200,
   manacost: 0,
   skull: 0,
-  healthNow: 0,
+  healthNow: 100,
   healthMax: 100,
   look_type_id: 0,
   look_type_head: 0,

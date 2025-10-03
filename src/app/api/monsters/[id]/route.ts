@@ -1,4 +1,4 @@
-import { monsterFormSchema } from '@/lib/api/monsters/schemas';
+import { monsterFormSchema } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
@@ -38,7 +38,10 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     return NextResponse.json(monster);
   } catch (error) {
     console.error('Error fetching monster:', error);
-    return NextResponse.json({ error: 'Failed to fetch monster' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch monster' },
+      { status: 500 },
+    );
   }
 }
 
@@ -68,8 +71,8 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         skull: validatedData.skull,
 
         // Health
-        healthNow: validatedData.health_now,
-        healthMax: validatedData.health_max,
+        healthNow: validatedData.healthNow,
+        healthMax: validatedData.healthMax,
 
         // Look/Appearance
         lookTypeId: validatedData.look_type_id,
@@ -167,7 +170,9 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
                     where: { name: validatedData.attack_name },
                     data: {
                       is_attack_simple: validatedData.is_attack_simple || false,
-                      interval: validatedData.attack_interval ? Number(validatedData.attack_interval) : undefined,
+                      interval: validatedData.attack_interval
+                        ? Number(validatedData.attack_interval)
+                        : undefined,
                       min: validatedData.attack_min,
                       max: validatedData.attack_max,
                       chance: validatedData.attack_chance || 0,
@@ -175,8 +180,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
                       speedchange: validatedData.attack_speedchange || 0,
                       duration: validatedData.attack_duration || 0,
                       target: validatedData.attack_target || 0,
-                      attack_attribute_key: validatedData.attack_attribute_key || '',
-                      attack_attribute_value: validatedData.attack_attribute_value ?? '',
+                      attack_attribute_key:
+                        validatedData.attack_attribute_key || '',
+                      attack_attribute_value:
+                        validatedData.attack_attribute_value ?? '',
                     },
                   },
                 ],
@@ -186,7 +193,9 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
                     {
                       is_attack_simple: validatedData.is_attack_simple || false,
                       name: validatedData.attack_name,
-                      interval: validatedData.attack_interval ? Number(validatedData.attack_interval) : undefined,
+                      interval: validatedData.attack_interval
+                        ? Number(validatedData.attack_interval)
+                        : undefined,
                       min: validatedData.attack_min,
                       max: validatedData.attack_max,
                       chance: validatedData.attack_chance || 0,
@@ -194,8 +203,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
                       speedchange: validatedData.attack_speedchange || 0,
                       duration: validatedData.attack_duration || 0,
                       target: validatedData.attack_target || 0,
-                      attack_attribute_key: validatedData.attack_attribute_key || '',
-                      attack_attribute_value: validatedData.attack_attribute_value ?? '',
+                      attack_attribute_key:
+                        validatedData.attack_attribute_key || '',
+                      attack_attribute_value:
+                        validatedData.attack_attribute_value ?? '',
                     },
                   ],
                   skipDuplicates: true,
@@ -229,7 +240,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    return NextResponse.json({ error: 'Failed to update monster' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to update monster' },
+      { status: 500 },
+    );
   }
 }
 
@@ -251,6 +265,9 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     return NextResponse.json({ message: 'Monster deleted successfully' });
   } catch (error) {
     console.error('Error deleting monster:', error);
-    return NextResponse.json({ error: 'Failed to delete monster' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to delete monster' },
+      { status: 500 },
+    );
   }
 }

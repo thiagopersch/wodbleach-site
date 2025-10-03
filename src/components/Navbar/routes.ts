@@ -1,5 +1,5 @@
 const navigationLinks = [
-  { href: '/', label: 'News' },
+  { href: '/', label: 'Novidades' },
   {
     label: 'Conta',
     submenu: true,

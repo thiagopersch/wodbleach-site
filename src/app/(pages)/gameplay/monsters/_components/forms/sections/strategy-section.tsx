@@ -1,10 +1,23 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import type { MonsterFormData } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
-import type { MonsterFormData } from '@/lib/api/monsters/schemas.ts';
 import type { UseFormReturn } from 'react-hook-form';
 
 interface StrategySectionProps {
@@ -19,7 +32,9 @@ export function StrategySection({ form }: StrategySectionProps) {
       <Card>
         <CardHeader>
           <CardTitle>Estratégia de Combate</CardTitle>
-          <CardDescription>Configure como o monstro se comporta em combate</CardDescription>
+          <CardDescription>
+            Configure como o monstro se comporta em combate
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <FormField
@@ -29,10 +44,15 @@ export function StrategySection({ form }: StrategySectionProps) {
               <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                 <div className="space-y-0.5">
                   <FormLabel className="text-base">Usar Estratégia</FormLabel>
-                  <FormDescription>Ativar sistema de estratégia de combate</FormDescription>
+                  <FormDescription>
+                    Ativar sistema de estratégia de combate
+                  </FormDescription>
                 </div>
                 <FormControl>
-                  <Switch checked={field.value} onCheckedChange={field.onChange} />
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
                 </FormControl>
               </FormItem>
             )}
@@ -53,10 +73,14 @@ export function StrategySection({ form }: StrategySectionProps) {
                         max="100"
                         placeholder="0"
                         {...field}
-                        onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
                       />
                     </FormControl>
-                    <FormDescription>Agressividade do monstro (0-100)</FormDescription>
+                    <FormDescription>
+                      Agressividade do monstro (0-100)
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -75,10 +99,14 @@ export function StrategySection({ form }: StrategySectionProps) {
                         max="100"
                         placeholder="0"
                         {...field}
-                        onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
                       />
                     </FormControl>
-                    <FormDescription>Comportamento defensivo (0-100)</FormDescription>
+                    <FormDescription>
+                      Comportamento defensivo (0-100)
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -99,10 +127,14 @@ export function StrategySection({ form }: StrategySectionProps) {
                       min="0"
                       placeholder="0"
                       {...field}
-                      onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                      onChange={(e) =>
+                        field.onChange(Number.parseInt(e.target.value) || 0)
+                      }
                     />
                   </FormControl>
-                  <FormDescription>Tempo em ms para mudar de alvo</FormDescription>
+                  <FormDescription>
+                    Tempo em ms para mudar de alvo
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -121,10 +153,14 @@ export function StrategySection({ form }: StrategySectionProps) {
                       max="100"
                       placeholder="0"
                       {...field}
-                      onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                      onChange={(e) =>
+                        field.onChange(Number.parseInt(e.target.value) || 0)
+                      }
                     />
                   </FormControl>
-                  <FormDescription>Probabilidade de mudar de alvo (%)</FormDescription>
+                  <FormDescription>
+                    Probabilidade de mudar de alvo (%)
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

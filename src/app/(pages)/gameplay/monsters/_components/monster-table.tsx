@@ -1,5 +1,6 @@
 'use client';
 
+import { Monster } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
 import {
   useDeleteMonster,
   useExportMonsterXml,
@@ -17,7 +18,12 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,8 +31,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Monster } from '@/lib/api/monsters/schemas';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import {
   calculateDifficulty,
   formatExperience,
@@ -110,7 +122,9 @@ export function MonsterTable({ monsters, isLoading }: MonsterTableProps) {
     return (
       <div className="py-12 text-center">
         <p className="text-muted-foreground">Nenhum monstro encontrado</p>
-        <p className="text-muted-foreground mt-1 text-sm">Crie seu primeiro monstro ou ajuste os filtros</p>
+        <p className="text-muted-foreground mt-1 text-sm">
+          Crie seu primeiro monstro ou ajuste os filtros
+        </p>
       </div>
     );
   }
@@ -139,13 +153,17 @@ export function MonsterTable({ monsters, isLoading }: MonsterTableProps) {
                     <div>
                       <div className="font-medium">{monster.name}</div>
                       {monster.description && (
-                        <div className="text-muted-foreground text-sm">{monster.description}</div>
+                        <div className="text-muted-foreground text-sm">
+                          {monster.description}
+                        </div>
                       )}
                     </div>
                   </TableCell>
                   <TableCell>
                     <Badge className={getRaceBackground(monster.race)}>
-                      <span className={getRaceColor(monster.race)}>{monster.race}</span>
+                      <span className={getRaceColor(monster.race)}>
+                        {monster.race}
+                      </span>
                     </Badge>
                   </TableCell>
                   <TableCell>
@@ -154,13 +172,18 @@ export function MonsterTable({ monsters, isLoading }: MonsterTableProps) {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="font-mono text-sm">{formatExperience(monster.experience)}</div>
+                    <div className="font-mono text-sm">
+                      {formatExperience(monster.experience)}
+                    </div>
                   </TableCell>
                   <TableCell>
                     <div className="font-mono text-sm">{monster.speed}</div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="outline" className={getDifficultyColor(difficulty)}>
+                    <Badge
+                      variant="outline"
+                      className={getDifficultyColor(difficulty)}
+                    >
                       {difficulty}
                     </Badge>
                   </TableCell>
@@ -185,7 +208,10 @@ export function MonsterTable({ monsters, isLoading }: MonsterTableProps) {
                           Exportar XML
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => handleDelete(monster)} className="text-destructive">
+                        <DropdownMenuItem
+                          onClick={() => handleDelete(monster)}
+                          className="text-destructive"
+                        >
                           <Trash2 className="mr-2 h-4 w-4" />
                           Excluir
                         </DropdownMenuItem>
@@ -200,7 +226,10 @@ export function MonsterTable({ monsters, isLoading }: MonsterTableProps) {
       </div>
 
       {/* Edit Monster Dialog */}
-      <Dialog open={!!editingMonster} onOpenChange={() => setEditingMonster(null)}>
+      <Dialog
+        open={!!editingMonster}
+        onOpenChange={() => setEditingMonster(null)}
+      >
         <DialogContent className="max-h-[90vh] max-w-6xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Editar Monstro</DialogTitle>
@@ -217,7 +246,10 @@ export function MonsterTable({ monsters, isLoading }: MonsterTableProps) {
       </Dialog>
 
       {/* View Monster Dialog */}
-      <Dialog open={!!viewingMonster} onOpenChange={() => setViewingMonster(null)}>
+      <Dialog
+        open={!!viewingMonster}
+        onOpenChange={() => setViewingMonster(null)}
+      >
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Detalhes do Monstro</DialogTitle>
@@ -227,12 +259,16 @@ export function MonsterTable({ monsters, isLoading }: MonsterTableProps) {
       </Dialog>
 
       {/* Delete Confirmation Dialog */}
-      <AlertDialog open={!!deletingMonster} onOpenChange={() => setDeletingMonster(null)}>
+      <AlertDialog
+        open={!!deletingMonster}
+        onOpenChange={() => setDeletingMonster(null)}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
             <AlertDialogDescription>
-              Tem certeza que deseja excluir o monstro "{deletingMonster?.name}"? Esta ação não pode ser desfeita.
+              Tem certeza que deseja excluir o monstro "{deletingMonster?.name}
+              "? Esta ação não pode ser desfeita.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

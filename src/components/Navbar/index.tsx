@@ -29,10 +29,34 @@ export default function Navbar() {
           <Popover>
             <PopoverTrigger asChild>
               <Button className="group size-8 md:hidden" variant="ghost" size="icon">
-                <Image src="/logo-mobile.svg" alt="Logo" width={24} height={24} />
+                <svg
+                  className="pointer-events-none"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4 12L20 12"
+                    className="origin-center -translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[315deg]"
+                  />
+                  <path
+                    d="M4 12H20"
+                    className="origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] group-aria-expanded:rotate-45"
+                  />
+                  <path
+                    d="M4 12H20"
+                    className="origin-center translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[135deg]"
+                  />
+                </svg>
               </Button>
             </PopoverTrigger>
-            <PopoverContent align="start" className="w-64 p-1 md:hidden">
+            <PopoverContent align="start" className="w-70 p-1 md:hidden">
               <NavigationMenu className="max-w-none *:w-full">
                 <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
                   {navigationLinks.map((link, index) => (
@@ -77,7 +101,8 @@ export default function Navbar() {
               </NavigationMenu>
             </PopoverContent>
           </Popover>
-          {/* Main nav */}
+
+          {/* Desktop menu */}
           <div className="flex items-center gap-6">
             <Link href="/">
               <Image src="/logo.png" alt="Logo" width={110} height={40} className="hidden md:inline" />
@@ -153,25 +178,27 @@ export default function Navbar() {
           </div>
         </div>
         {/* Right side */}
-        <div className="flex items-center gap-2">
-          <Badge
-            variant="secondary"
-            className="text-muted-foreground bg-emerald-500/50 px-2 py-1 text-xs font-medium md:text-sm"
-          >
-            0 players online
-          </Badge>
-        </div>
-        <div>
-          {session?.user && (
-            <UserAccountNav
-              user={{
-                id: session.user.id,
-                name: session.user.name || '',
-                email: session.user.email || '',
-                expires: session.expires || '',
-              }}
-            />
-          )}
+        <div className="flex justify-center gap-2">
+          <div className="flex items-center gap-2">
+            <Badge
+              variant="secondary"
+              className="text-muted-foreground bg-emerald-500/50 px-2 py-1 text-xs font-medium md:text-sm"
+            >
+              0 players online
+            </Badge>
+          </div>
+          <div>
+            {session?.user && (
+              <UserAccountNav
+                user={{
+                  id: session.user.id,
+                  name: session.user.name || '',
+                  email: session.user.email || '',
+                  expires: session.expires || '',
+                }}
+              />
+            )}
+          </div>
         </div>
       </div>
     </header>

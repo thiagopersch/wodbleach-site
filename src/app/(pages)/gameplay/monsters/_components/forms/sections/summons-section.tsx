@@ -1,10 +1,23 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import type { MonsterFormData } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
-import type { MonsterFormData } from '@/lib/api/monsters/schemas.ts';
 import type { UseFormReturn } from 'react-hook-form';
 
 interface SummonsSectionProps {
@@ -18,7 +31,9 @@ export function SummonsSection({ form }: SummonsSectionProps) {
     <Card>
       <CardHeader>
         <CardTitle>Sistema de Summons</CardTitle>
-        <CardDescription>Configure a capacidade do monstro de invocar outros monstros</CardDescription>
+        <CardDescription>
+          Configure a capacidade do monstro de invocar outros monstros
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <FormField
@@ -27,11 +42,18 @@ export function SummonsSection({ form }: SummonsSectionProps) {
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
-                <FormLabel className="text-base">Usar Sistema de Summons</FormLabel>
-                <FormDescription>Permitir que o monstro invoque outros monstros</FormDescription>
+                <FormLabel className="text-base">
+                  Usar Sistema de Summons
+                </FormLabel>
+                <FormDescription>
+                  Permitir que o monstro invoque outros monstros
+                </FormDescription>
               </div>
               <FormControl>
-                <Switch checked={field.value} onCheckedChange={field.onChange} />
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
               </FormControl>
             </FormItem>
           )}
@@ -51,10 +73,15 @@ export function SummonsSection({ form }: SummonsSectionProps) {
                       min="0"
                       placeholder="0"
                       {...field}
-                      onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                      onChange={(e) =>
+                        field.onChange(Number.parseInt(e.target.value) || 0)
+                      }
                     />
                   </FormControl>
-                  <FormDescription>Número máximo de criaturas que podem ser invocadas simultaneamente</FormDescription>
+                  <FormDescription>
+                    Número máximo de criaturas que podem ser invocadas
+                    simultaneamente
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -70,9 +97,14 @@ export function SummonsSection({ form }: SummonsSectionProps) {
                   <FormItem>
                     <FormLabel>Nome do Monstro</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ex: fire elemental, skeleton" {...field} />
+                      <Input
+                        placeholder="Ex: fire elemental, skeleton"
+                        {...field}
+                      />
                     </FormControl>
-                    <FormDescription>Nome do monstro que será invocado (máximo 100 caracteres)</FormDescription>
+                    <FormDescription>
+                      Nome do monstro que será invocado (máximo 100 caracteres)
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -91,10 +123,14 @@ export function SummonsSection({ form }: SummonsSectionProps) {
                           min="0"
                           placeholder="0"
                           {...field}
-                          onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                          onChange={(e) =>
+                            field.onChange(Number.parseInt(e.target.value) || 0)
+                          }
                         />
                       </FormControl>
-                      <FormDescription>Intervalo entre invocações (ms)</FormDescription>
+                      <FormDescription>
+                        Intervalo entre invocações (ms)
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -113,7 +149,9 @@ export function SummonsSection({ form }: SummonsSectionProps) {
                           max="100"
                           placeholder="0"
                           {...field}
-                          onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                          onChange={(e) =>
+                            field.onChange(Number.parseInt(e.target.value) || 0)
+                          }
                         />
                       </FormControl>
                       <FormDescription>Chance de invocar (%)</FormDescription>
@@ -134,7 +172,9 @@ export function SummonsSection({ form }: SummonsSectionProps) {
                           min="0"
                           placeholder="0"
                           {...field}
-                          onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                          onChange={(e) =>
+                            field.onChange(Number.parseInt(e.target.value) || 0)
+                          }
                         />
                       </FormControl>
                       <FormDescription>Máximo por vez</FormDescription>
@@ -147,8 +187,10 @@ export function SummonsSection({ form }: SummonsSectionProps) {
 
             <div className="bg-muted/50 rounded-lg p-4">
               <p className="text-muted-foreground text-sm">
-                <strong>Dica:</strong> O nome do monstro deve corresponder exatamente ao nome definido no arquivo de
-                monstros do servidor. Certifique-se de que o monstro existe antes de configurar o summon.
+                <strong>Dica:</strong> O nome do monstro deve corresponder
+                exatamente ao nome definido no arquivo de monstros do servidor.
+                Certifique-se de que o monstro existe antes de configurar o
+                summon.
               </p>
             </div>
           </>

@@ -1,11 +1,24 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import type { MonsterFormData } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
-import type { MonsterFormData } from '@/lib/api/monsters/schemas.ts';
 import type { UseFormReturn } from 'react-hook-form';
 
 interface VoicesSectionProps {
@@ -19,7 +32,9 @@ export function VoicesSection({ form }: VoicesSectionProps) {
     <Card>
       <CardHeader>
         <CardTitle>Sistema de Vozes</CardTitle>
-        <CardDescription>Configure as falas do monstro durante o combate</CardDescription>
+        <CardDescription>
+          Configure as falas do monstro durante o combate
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <FormField
@@ -28,11 +43,18 @@ export function VoicesSection({ form }: VoicesSectionProps) {
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
-                <FormLabel className="text-base">Usar Sistema de Vozes</FormLabel>
-                <FormDescription>Ativar falas automáticas do monstro</FormDescription>
+                <FormLabel className="text-base">
+                  Usar Sistema de Vozes
+                </FormLabel>
+                <FormDescription>
+                  Ativar falas automáticas do monstro
+                </FormDescription>
               </div>
               <FormControl>
-                <Switch checked={field.value} onCheckedChange={field.onChange} />
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
               </FormControl>
             </FormItem>
           )}
@@ -53,10 +75,14 @@ export function VoicesSection({ form }: VoicesSectionProps) {
                         min="0"
                         placeholder="0"
                         {...field}
-                        onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
                       />
                     </FormControl>
-                    <FormDescription>Intervalo entre falas (ms)</FormDescription>
+                    <FormDescription>
+                      Intervalo entre falas (ms)
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -75,7 +101,9 @@ export function VoicesSection({ form }: VoicesSectionProps) {
                         max="100"
                         placeholder="0"
                         {...field}
-                        onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
                       />
                     </FormControl>
                     <FormDescription>Chance de falar (%)</FormDescription>
@@ -99,7 +127,9 @@ export function VoicesSection({ form }: VoicesSectionProps) {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>Frase que o monstro irá falar (máximo 100 caracteres)</FormDescription>
+                  <FormDescription>
+                    Frase que o monstro irá falar (máximo 100 caracteres)
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -112,10 +142,15 @@ export function VoicesSection({ form }: VoicesSectionProps) {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                   <div className="space-y-0.5">
                     <FormLabel>Gritar</FormLabel>
-                    <FormDescription>A fala será em formato de grito (maiúscula e mais visível)</FormDescription>
+                    <FormDescription>
+                      A fala será em formato de grito (maiúscula e mais visível)
+                    </FormDescription>
                   </div>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -123,8 +158,10 @@ export function VoicesSection({ form }: VoicesSectionProps) {
 
             <div className="bg-muted/50 rounded-lg p-4">
               <p className="text-muted-foreground text-sm">
-                <strong>Dica:</strong> Use frases curtas e impactantes. Frases muito longas podem ser cortadas no jogo.
-                Exemplos: "MUHAHAHAHA!", "Your resistance is futile!", "I SMELL FEEEEEAAAR!"
+                <strong>Dica:</strong> Use frases curtas e impactantes. Frases
+                muito longas podem ser cortadas no jogo. Exemplos:
+                "MUHAHAHAHA!", "Your resistance is futile!", "I SMELL
+                FEEEEEAAAR!"
               </p>
             </div>
           </>

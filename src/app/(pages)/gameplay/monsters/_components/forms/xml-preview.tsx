@@ -1,8 +1,8 @@
 'use client';
 
+import type { MonsterFormData } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import type { MonsterFormData } from '@/lib/api/monsters/schemas.ts';
 import { monsterToXml } from '@/lib/api/monsters/utils/monster-utils';
 import { Check, Copy } from 'lucide-react';
 import { useState } from 'react';
@@ -30,8 +30,17 @@ export function XmlPreview({ data }: XmlPreviewProps) {
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium">XML Gerado</span>
-        <Button variant="outline" size="sm" onClick={copyToClipboard} className="h-8 bg-transparent">
-          {copied ? <Check className="mr-1 h-3 w-3" /> : <Copy className="mr-1 h-3 w-3" />}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={copyToClipboard}
+          className="h-8 bg-transparent"
+        >
+          {copied ? (
+            <Check className="mr-1 h-3 w-3" />
+          ) : (
+            <Copy className="mr-1 h-3 w-3" />
+          )}
           {copied ? 'Copiado!' : 'Copiar'}
         </Button>
       </div>

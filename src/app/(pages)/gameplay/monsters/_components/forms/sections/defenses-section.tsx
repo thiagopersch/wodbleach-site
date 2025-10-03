@@ -1,10 +1,23 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import type { MonsterFormData } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
-import type { MonsterFormData } from '@/lib/api/monsters/schemas.ts';
 import type { UseFormReturn } from 'react-hook-form';
 
 interface DefensesSectionProps {
@@ -18,7 +31,9 @@ export function DefensesSection({ form }: DefensesSectionProps) {
     <Card>
       <CardHeader>
         <CardTitle>Sistema de Defesas</CardTitle>
-        <CardDescription>Configure as defesas e resistências do monstro</CardDescription>
+        <CardDescription>
+          Configure as defesas e resistências do monstro
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <FormField
@@ -27,11 +42,18 @@ export function DefensesSection({ form }: DefensesSectionProps) {
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
-                <FormLabel className="text-base">Usar Sistema de Defesas</FormLabel>
-                <FormDescription>Ativar sistema de defesas personalizadas</FormDescription>
+                <FormLabel className="text-base">
+                  Usar Sistema de Defesas
+                </FormLabel>
+                <FormDescription>
+                  Ativar sistema de defesas personalizadas
+                </FormDescription>
               </div>
               <FormControl>
-                <Switch checked={field.value} onCheckedChange={field.onChange} />
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
               </FormControl>
             </FormItem>
           )}
@@ -52,7 +74,9 @@ export function DefensesSection({ form }: DefensesSectionProps) {
                         min="0"
                         placeholder="0"
                         {...field}
-                        onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
                       />
                     </FormControl>
                     <FormDescription>Valor de armadura base</FormDescription>
@@ -73,7 +97,9 @@ export function DefensesSection({ form }: DefensesSectionProps) {
                         min="0"
                         placeholder="0"
                         {...field}
-                        onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
                       />
                     </FormControl>
                     <FormDescription>Valor de defesa base</FormDescription>
@@ -114,10 +140,14 @@ export function DefensesSection({ form }: DefensesSectionProps) {
                           min="0"
                           placeholder="0"
                           {...field}
-                          onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                          onChange={(e) =>
+                            field.onChange(Number.parseInt(e.target.value) || 0)
+                          }
                         />
                       </FormControl>
-                      <FormDescription>Intervalo entre usos (ms)</FormDescription>
+                      <FormDescription>
+                        Intervalo entre usos (ms)
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -136,7 +166,9 @@ export function DefensesSection({ form }: DefensesSectionProps) {
                           max="100"
                           placeholder="0"
                           {...field}
-                          onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                          onChange={(e) =>
+                            field.onChange(Number.parseInt(e.target.value) || 0)
+                          }
                         />
                       </FormControl>
                       <FormDescription>Chance de usar (%)</FormDescription>
@@ -157,7 +189,9 @@ export function DefensesSection({ form }: DefensesSectionProps) {
                           min="0"
                           placeholder="0"
                           {...field}
-                          onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                          onChange={(e) =>
+                            field.onChange(Number.parseInt(e.target.value) || 0)
+                          }
                         />
                       </FormControl>
                       <FormDescription>Valor mínimo do efeito</FormDescription>
@@ -178,7 +212,9 @@ export function DefensesSection({ form }: DefensesSectionProps) {
                           min="0"
                           placeholder="0"
                           {...field}
-                          onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                          onChange={(e) =>
+                            field.onChange(Number.parseInt(e.target.value) || 0)
+                          }
                         />
                       </FormControl>
                       <FormDescription>Valor máximo do efeito</FormDescription>
@@ -198,7 +234,9 @@ export function DefensesSection({ form }: DefensesSectionProps) {
                           type="number"
                           placeholder="0"
                           {...field}
-                          onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                          onChange={(e) =>
+                            field.onChange(Number.parseInt(e.target.value) || 0)
+                          }
                         />
                       </FormControl>
                       <FormDescription>Alteração de velocidade</FormDescription>
@@ -221,7 +259,9 @@ export function DefensesSection({ form }: DefensesSectionProps) {
                           min="0"
                           placeholder="0"
                           {...field}
-                          onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                          onChange={(e) =>
+                            field.onChange(Number.parseInt(e.target.value) || 0)
+                          }
                         />
                       </FormControl>
                       <FormDescription>Duração do efeito (ms)</FormDescription>
@@ -239,7 +279,9 @@ export function DefensesSection({ form }: DefensesSectionProps) {
                       <FormControl>
                         <Input placeholder="Ex: areaEffect" {...field} />
                       </FormControl>
-                      <FormDescription>Chave do atributo especial</FormDescription>
+                      <FormDescription>
+                        Chave do atributo especial
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -254,7 +296,9 @@ export function DefensesSection({ form }: DefensesSectionProps) {
                       <FormControl>
                         <Input placeholder="Ex: blueshimmer" {...field} />
                       </FormControl>
-                      <FormDescription>Valor do atributo especial</FormDescription>
+                      <FormDescription>
+                        Valor do atributo especial
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}

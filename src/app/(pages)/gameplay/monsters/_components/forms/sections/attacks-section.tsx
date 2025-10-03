@@ -1,10 +1,23 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import type { MonsterFormData } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
-import type { MonsterFormData } from '@/lib/api/monsters/schemas.ts';
 import type { UseFormReturn } from 'react-hook-form';
 
 interface AttacksSectionProps {
@@ -27,11 +40,18 @@ export function AttacksSection({ form }: AttacksSectionProps) {
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
-                <FormLabel className="text-base">Usar Sistema de Ataques</FormLabel>
-                <FormDescription>Ativar sistema de ataques personalizados</FormDescription>
+                <FormLabel className="text-base">
+                  Usar Sistema de Ataques
+                </FormLabel>
+                <FormDescription>
+                  Ativar sistema de ataques personalizados
+                </FormDescription>
               </div>
               <FormControl>
-                <Switch checked={field.value} onCheckedChange={field.onChange} />
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
               </FormControl>
             </FormItem>
           )}
@@ -46,10 +66,15 @@ export function AttacksSection({ form }: AttacksSectionProps) {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                   <div className="space-y-0.5">
                     <FormLabel>Ataque Simples</FormLabel>
-                    <FormDescription>Usar sistema de ataque simplificado</FormDescription>
+                    <FormDescription>
+                      Usar sistema de ataque simplificado
+                    </FormDescription>
                   </div>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -65,7 +90,9 @@ export function AttacksSection({ form }: AttacksSectionProps) {
                     <FormControl>
                       <Input placeholder="Ex: melee, fire, energy" {...field} />
                     </FormControl>
-                    <FormDescription>Tipo de ataque (máximo 30 caracteres)</FormDescription>
+                    <FormDescription>
+                      Tipo de ataque (máximo 30 caracteres)
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -80,7 +107,9 @@ export function AttacksSection({ form }: AttacksSectionProps) {
                     <FormControl>
                       <Input placeholder="Ex: 2000" {...field} />
                     </FormControl>
-                    <FormDescription>Intervalo entre ataques (ms)</FormDescription>
+                    <FormDescription>
+                      Intervalo entre ataques (ms)
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -129,10 +158,14 @@ export function AttacksSection({ form }: AttacksSectionProps) {
                         max="100"
                         placeholder="0"
                         {...field}
-                        onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
                       />
                     </FormControl>
-                    <FormDescription>Chance de usar o ataque (%)</FormDescription>
+                    <FormDescription>
+                      Chance de usar o ataque (%)
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -150,7 +183,9 @@ export function AttacksSection({ form }: AttacksSectionProps) {
                         min="0"
                         placeholder="0"
                         {...field}
-                        onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
                       />
                     </FormControl>
                     <FormDescription>Alcance do ataque (sqm)</FormDescription>
@@ -172,7 +207,9 @@ export function AttacksSection({ form }: AttacksSectionProps) {
                         type="number"
                         placeholder="0"
                         {...field}
-                        onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
                       />
                     </FormControl>
                     <FormDescription>Alteração de velocidade</FormDescription>
@@ -193,7 +230,9 @@ export function AttacksSection({ form }: AttacksSectionProps) {
                         min="0"
                         placeholder="0"
                         {...field}
-                        onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
                       />
                     </FormControl>
                     <FormDescription>Duração do efeito (ms)</FormDescription>
@@ -214,7 +253,9 @@ export function AttacksSection({ form }: AttacksSectionProps) {
                         min="0"
                         placeholder="0"
                         {...field}
-                        onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
                       />
                     </FormControl>
                     <FormDescription>Tipo de alvo</FormDescription>
@@ -237,10 +278,14 @@ export function AttacksSection({ form }: AttacksSectionProps) {
                         min="0"
                         placeholder="0"
                         {...field}
-                        onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
                       />
                     </FormControl>
-                    <FormDescription>Chave do atributo especial</FormDescription>
+                    <FormDescription>
+                      Chave do atributo especial
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -255,7 +300,9 @@ export function AttacksSection({ form }: AttacksSectionProps) {
                     <FormControl>
                       <Input placeholder="Ex: fire, energy" {...field} />
                     </FormControl>
-                    <FormDescription>Valor do atributo especial</FormDescription>
+                    <FormDescription>
+                      Valor do atributo especial
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

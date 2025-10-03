@@ -18,7 +18,7 @@ export async function GET() {
       ),
       byDifficulty: monsters.reduce(
         (acc, monster) => {
-          const score = monster.experience + monster.health_max / 10 + monster.speed / 10;
+          const score = monster.experience + monster.healthMax / 10 + monster.speed / 10;
           let difficulty: string;
 
           if (score < 100) difficulty = 'Easy';
@@ -37,7 +37,7 @@ export async function GET() {
           : 0,
       averageHealth:
         monsters.length > 0
-          ? Math.round(monsters.reduce((sum, monster) => sum + monster.health_max, 0) / monsters.length)
+          ? Math.round(monsters.reduce((sum, monster) => sum + monster.healthMax, 0) / monsters.length)
           : 0,
       totalExperience: monsters.reduce((sum, monster) => sum + monster.experience, 0),
       mostPowerful:

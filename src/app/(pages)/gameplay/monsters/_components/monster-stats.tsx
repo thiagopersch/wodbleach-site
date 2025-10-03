@@ -73,7 +73,7 @@ export function MonsterStats() {
   const averageStats = {
     experience:
       monsters.length > 0 ? Math.round(monsters.reduce((sum, m) => sum + m.experience, 0) / monsters.length) : 0,
-    health: monsters.length > 0 ? Math.round(monsters.reduce((sum, m) => sum + m.health_max, 0) / monsters.length) : 0,
+    health: monsters.length > 0 ? Math.round(monsters.reduce((sum, m) => sum + m.healthMax, 0) / monsters.length) : 0,
     speed: monsters.length > 0 ? Math.round(monsters.reduce((sum, m) => sum + m.speed, 0) / monsters.length) : 0,
   };
 
@@ -213,7 +213,7 @@ export function MonsterStats() {
                 </div>
                 <div className="text-right">
                   <div className="font-mono font-bold">{formatExperience(monster.experience)} XP</div>
-                  <div className="text-muted-foreground text-sm">{monster.health_max} HP</div>
+                  <div className="text-muted-foreground text-sm">{monster.healthMax} HP</div>
                 </div>
               </div>
             ))}

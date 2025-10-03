@@ -1,10 +1,23 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { MonsterFormData } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
-import { MonsterFormData } from '@/lib/api/monsters/schemas';
 import type { UseFormReturn } from 'react-hook-form';
 
 interface LootSectionProps {
@@ -18,7 +31,9 @@ export function LootSection({ form }: LootSectionProps) {
     <Card>
       <CardHeader>
         <CardTitle>Sistema de Loot</CardTitle>
-        <CardDescription>Configure os itens que o monstro pode dropar ao morrer</CardDescription>
+        <CardDescription>
+          Configure os itens que o monstro pode dropar ao morrer
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <FormField
@@ -27,11 +42,18 @@ export function LootSection({ form }: LootSectionProps) {
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
-                <FormLabel className="text-base">Usar Sistema de Loot</FormLabel>
-                <FormDescription>Permitir que o monstro drope itens ao morrer</FormDescription>
+                <FormLabel className="text-base">
+                  Usar Sistema de Loot
+                </FormLabel>
+                <FormDescription>
+                  Permitir que o monstro drope itens ao morrer
+                </FormDescription>
               </div>
               <FormControl>
-                <Switch checked={field.value} onCheckedChange={field.onChange} />
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
               </FormControl>
             </FormItem>
           )}
@@ -46,10 +68,15 @@ export function LootSection({ form }: LootSectionProps) {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                   <div className="space-y-0.5">
                     <FormLabel>Loot Dentro de Bag</FormLabel>
-                    <FormDescription>Os itens serão dropados dentro de uma bag</FormDescription>
+                    <FormDescription>
+                      Os itens serão dropados dentro de uma bag
+                    </FormDescription>
                   </div>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -71,7 +98,9 @@ export function LootSection({ form }: LootSectionProps) {
                           min="0"
                           placeholder="0"
                           {...field}
-                          onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                          onChange={(e) =>
+                            field.onChange(Number.parseInt(e.target.value) || 0)
+                          }
                         />
                       </FormControl>
                       <FormDescription>ID do item no servidor</FormDescription>
@@ -89,7 +118,9 @@ export function LootSection({ form }: LootSectionProps) {
                       <FormControl>
                         <Input placeholder="Ex: gold coin, sword" {...field} />
                       </FormControl>
-                      <FormDescription>Nome do item (para referência)</FormDescription>
+                      <FormDescription>
+                        Nome do item (para referência)
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -108,10 +139,14 @@ export function LootSection({ form }: LootSectionProps) {
                           max="100000"
                           placeholder="0"
                           {...field}
-                          onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                          onChange={(e) =>
+                            field.onChange(Number.parseInt(e.target.value) || 0)
+                          }
                         />
                       </FormControl>
-                      <FormDescription>Chance de drop (0-100000, onde 100000 = 100%)</FormDescription>
+                      <FormDescription>
+                        Chance de drop (0-100000, onde 100000 = 100%)
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -129,10 +164,14 @@ export function LootSection({ form }: LootSectionProps) {
                           min="1"
                           placeholder="1"
                           {...field}
-                          onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 1)}
+                          onChange={(e) =>
+                            field.onChange(Number.parseInt(e.target.value) || 1)
+                          }
                         />
                       </FormControl>
-                      <FormDescription>Quantidade máxima do item que pode dropar</FormDescription>
+                      <FormDescription>
+                        Quantidade máxima do item que pode dropar
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -147,17 +186,23 @@ export function LootSection({ form }: LootSectionProps) {
                     <FormItem>
                       <FormLabel>Texto do Item</FormLabel>
                       <FormControl>
-                        <Input placeholder="Ex: Texto especial no item" {...field} />
+                        <Input
+                          placeholder="Ex: Texto especial no item"
+                          {...field}
+                        />
                       </FormControl>
-                      <FormDescription>Texto personalizado que aparece no item</FormDescription>
+                      <FormDescription>
+                        Texto personalizado que aparece no item
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
                 <div className="border-t pt-4">
                   <p className="text-muted-foreground text-sm">
-                    <strong>Dica:</strong> Para adicionar múltiplos itens de loot, você pode criar diferentes monstros
-                    ou usar scripts SQL personalizados para inserir múltiplas entradas de loot.
+                    <strong>Dica:</strong> Para adicionar múltiplos itens de
+                    loot, você pode criar diferentes monstros ou usar scripts
+                    SQL personalizados para inserir múltiplas entradas de loot.
                   </p>
                 </div>
               </div>

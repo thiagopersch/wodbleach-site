@@ -1,5 +1,8 @@
 import axios from 'axios';
-import { Monster, MonsterFormData } from './schemas';
+import {
+  Monster,
+  MonsterFormData,
+} from '../../../app/(pages)/gameplay/monsters/_hooks/schemas';
 
 const api = axios.create({
   baseURL: '/api',
@@ -28,7 +31,10 @@ export const monstersApi = {
   },
 
   // Update monster
-  update: async (id: string, data: Partial<MonsterFormData>): Promise<Monster> => {
+  update: async (
+    id: string,
+    data: Partial<MonsterFormData>,
+  ): Promise<Monster> => {
     const response = await api.put(`/monsters/${id}`, data);
     return response.data;
   },

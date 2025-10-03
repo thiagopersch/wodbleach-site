@@ -1,4 +1,4 @@
-import { monsterFormSchema } from '@/lib/api/monsters/schemas';
+import { monsterFormSchema } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
@@ -29,7 +29,10 @@ export async function GET() {
     return NextResponse.json(monsters);
   } catch (error) {
     console.error('Error fetching monsters:', error);
-    return NextResponse.json({ error: 'Failed to fetch monsters' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch monsters' },
+      { status: 500 },
+    );
   }
 }
 
@@ -59,8 +62,8 @@ export async function POST(request: NextRequest) {
         skull: validatedData.skull,
 
         // Health
-        healthNow: validatedData.health_now,
-        healthMax: validatedData.health_max,
+        healthNow: validatedData.healthNow,
+        healthMax: validatedData.healthMax,
 
         // Look/Appearance
         lookTypeId: validatedData.look_type_id,
@@ -152,7 +155,8 @@ export async function POST(request: NextRequest) {
                     duration: validatedData.attack_duration,
                     target: validatedData.attack_target,
                     attack_attribute_key: validatedData.attack_attribute_key,
-                    attack_attribute_value: validatedData.attack_attribute_value,
+                    attack_attribute_value:
+                      validatedData.attack_attribute_value,
                   },
                 ],
               }
@@ -253,6 +257,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ error: 'Failed to create monster' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to create monster' },
+      { status: 500 },
+    );
   }
 }

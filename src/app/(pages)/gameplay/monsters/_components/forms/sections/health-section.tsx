@@ -1,10 +1,23 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import type { MonsterFormData } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
-import type { MonsterFormData } from '@/lib/api/monsters/schemas.ts';
 import type { UseFormReturn } from 'react-hook-form';
 
 interface HealthSectionProps {
@@ -21,7 +34,9 @@ export function HealthSection({ form }: HealthSectionProps) {
       <Card>
         <CardHeader>
           <CardTitle>Configurações de Vida</CardTitle>
-          <CardDescription>Configure a vida atual e máxima do monstro</CardDescription>
+          <CardDescription>
+            Configure a vida atual e máxima do monstro
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -66,10 +81,14 @@ export function HealthSection({ form }: HealthSectionProps) {
                       max={healthMax}
                       placeholder="100"
                       {...field}
-                      onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                      onChange={(e) =>
+                        field.onChange(Number.parseInt(e.target.value) || 0)
+                      }
                     />
                   </FormControl>
-                  <FormDescription>Vida atual do monstro (máximo: {healthMax})</FormDescription>
+                  <FormDescription>
+                    Vida atual do monstro (máximo: {healthMax})
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -79,7 +98,9 @@ export function HealthSection({ form }: HealthSectionProps) {
           {/* Health Bar Preview */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Preview da Barra de Vida</span>
+              <span className="text-muted-foreground">
+                Preview da Barra de Vida
+              </span>
               <span className="font-mono">
                 {healthNow}/{healthMax} ({healthPercentage.toFixed(1)}%)
               </span>

@@ -1,10 +1,23 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import type { MonsterFormData } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
-import type { MonsterFormData } from '@/lib/api/monsters/schemas.ts';
 import type { UseFormReturn } from 'react-hook-form';
 
 interface ElementsSectionProps {
@@ -18,7 +31,9 @@ export function ElementsSection({ form }: ElementsSectionProps) {
     <Card>
       <CardHeader>
         <CardTitle>Resistências Elementais</CardTitle>
-        <CardDescription>Configure as resistências e fraquezas elementais do monstro</CardDescription>
+        <CardDescription>
+          Configure as resistências e fraquezas elementais do monstro
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <FormField
@@ -27,11 +42,18 @@ export function ElementsSection({ form }: ElementsSectionProps) {
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
-                <FormLabel className="text-base">Usar Sistema de Elementos</FormLabel>
-                <FormDescription>Ativar resistências elementais personalizadas</FormDescription>
+                <FormLabel className="text-base">
+                  Usar Sistema de Elementos
+                </FormLabel>
+                <FormDescription>
+                  Ativar resistências elementais personalizadas
+                </FormDescription>
               </div>
               <FormControl>
-                <Switch checked={field.value} onCheckedChange={field.onChange} />
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
               </FormControl>
             </FormItem>
           )}
@@ -41,8 +63,8 @@ export function ElementsSection({ form }: ElementsSectionProps) {
           <>
             <div className="bg-muted/50 rounded-lg p-4">
               <p className="text-muted-foreground text-sm">
-                <strong>Valores:</strong> 100 = imune, 0 = normal, valores negativos = fraqueza, valores positivos =
-                resistência
+                <strong>Valores:</strong> 100 = imune, 0 = normal, valores
+                negativos = fraqueza, valores positivos = resistência
               </p>
             </div>
 
@@ -176,7 +198,9 @@ export function ElementsSection({ form }: ElementsSectionProps) {
                     <FormControl>
                       <Input placeholder="0" {...field} />
                     </FormControl>
-                    <FormDescription>Resistência ao dreno de vida</FormDescription>
+                    <FormDescription>
+                      Resistência ao dreno de vida
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -191,7 +215,9 @@ export function ElementsSection({ form }: ElementsSectionProps) {
                     <FormControl>
                       <Input placeholder="0" {...field} />
                     </FormControl>
-                    <FormDescription>Resistência ao dreno de mana</FormDescription>
+                    <FormDescription>
+                      Resistência ao dreno de mana
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

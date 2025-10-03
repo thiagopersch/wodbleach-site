@@ -1,10 +1,23 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import type { MonsterFormData } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
-import type { MonsterFormData } from '@/lib/api/monsters/schemas.ts';
 import type { UseFormReturn } from 'react-hook-form';
 
 interface FlagsSectionProps {
@@ -18,7 +31,9 @@ export function FlagsSection({ form }: FlagsSectionProps) {
       <Card>
         <CardHeader>
           <CardTitle>Flags Básicas</CardTitle>
-          <CardDescription>Configure o comportamento básico do monstro</CardDescription>
+          <CardDescription>
+            Configure o comportamento básico do monstro
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -29,10 +44,15 @@ export function FlagsSection({ form }: FlagsSectionProps) {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                   <div className="space-y-0.5">
                     <FormLabel>Summonable</FormLabel>
-                    <FormDescription className="text-xs">Pode ser summonado</FormDescription>
+                    <FormDescription className="text-xs">
+                      Pode ser summonado
+                    </FormDescription>
                   </div>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -45,10 +65,15 @@ export function FlagsSection({ form }: FlagsSectionProps) {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                   <div className="space-y-0.5">
                     <FormLabel>Attackable</FormLabel>
-                    <FormDescription className="text-xs">Pode ser atacado</FormDescription>
+                    <FormDescription className="text-xs">
+                      Pode ser atacado
+                    </FormDescription>
                   </div>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -61,10 +86,15 @@ export function FlagsSection({ form }: FlagsSectionProps) {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                   <div className="space-y-0.5">
                     <FormLabel>Hostile</FormLabel>
-                    <FormDescription className="text-xs">É hostil aos jogadores</FormDescription>
+                    <FormDescription className="text-xs">
+                      É hostil aos jogadores
+                    </FormDescription>
                   </div>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -77,10 +107,15 @@ export function FlagsSection({ form }: FlagsSectionProps) {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                   <div className="space-y-0.5">
                     <FormLabel>Illusionable</FormLabel>
-                    <FormDescription className="text-xs">Pode ser iludido</FormDescription>
+                    <FormDescription className="text-xs">
+                      Pode ser iludido
+                    </FormDescription>
                   </div>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -93,10 +128,15 @@ export function FlagsSection({ form }: FlagsSectionProps) {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                   <div className="space-y-0.5">
                     <FormLabel>Convinceable</FormLabel>
-                    <FormDescription className="text-xs">Pode ser convencido</FormDescription>
+                    <FormDescription className="text-xs">
+                      Pode ser convencido
+                    </FormDescription>
                   </div>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -109,10 +149,15 @@ export function FlagsSection({ form }: FlagsSectionProps) {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                   <div className="space-y-0.5">
                     <FormLabel>Pushable</FormLabel>
-                    <FormDescription className="text-xs">Pode ser empurrado</FormDescription>
+                    <FormDescription className="text-xs">
+                      Pode ser empurrado
+                    </FormDescription>
                   </div>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -125,7 +170,9 @@ export function FlagsSection({ form }: FlagsSectionProps) {
       <Card>
         <CardHeader>
           <CardTitle>Flags Avançadas</CardTitle>
-          <CardDescription>Configurações avançadas de comportamento</CardDescription>
+          <CardDescription>
+            Configurações avançadas de comportamento
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -136,10 +183,15 @@ export function FlagsSection({ form }: FlagsSectionProps) {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                   <div className="space-y-0.5">
                     <FormLabel>Can Push Items</FormLabel>
-                    <FormDescription className="text-xs">Pode empurrar itens</FormDescription>
+                    <FormDescription className="text-xs">
+                      Pode empurrar itens
+                    </FormDescription>
                   </div>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -152,10 +204,15 @@ export function FlagsSection({ form }: FlagsSectionProps) {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                   <div className="space-y-0.5">
                     <FormLabel>Can Push Creatures</FormLabel>
-                    <FormDescription className="text-xs">Pode empurrar criaturas</FormDescription>
+                    <FormDescription className="text-xs">
+                      Pode empurrar criaturas
+                    </FormDescription>
                   </div>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -168,10 +225,15 @@ export function FlagsSection({ form }: FlagsSectionProps) {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                   <div className="space-y-0.5">
                     <FormLabel>Hide Name</FormLabel>
-                    <FormDescription className="text-xs">Ocultar nome</FormDescription>
+                    <FormDescription className="text-xs">
+                      Ocultar nome
+                    </FormDescription>
                   </div>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -184,10 +246,15 @@ export function FlagsSection({ form }: FlagsSectionProps) {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                   <div className="space-y-0.5">
                     <FormLabel>Hide Health</FormLabel>
-                    <FormDescription className="text-xs">Ocultar barra de vida</FormDescription>
+                    <FormDescription className="text-xs">
+                      Ocultar barra de vida
+                    </FormDescription>
                   </div>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -200,10 +267,15 @@ export function FlagsSection({ form }: FlagsSectionProps) {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                   <div className="space-y-0.5">
                     <FormLabel>Lureable</FormLabel>
-                    <FormDescription className="text-xs">Pode ser atraído</FormDescription>
+                    <FormDescription className="text-xs">
+                      Pode ser atraído
+                    </FormDescription>
                   </div>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -216,10 +288,15 @@ export function FlagsSection({ form }: FlagsSectionProps) {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                   <div className="space-y-0.5">
                     <FormLabel>Walkable</FormLabel>
-                    <FormDescription className="text-xs">Pode ser atravessado</FormDescription>
+                    <FormDescription className="text-xs">
+                      Pode ser atravessado
+                    </FormDescription>
                   </div>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -240,7 +317,9 @@ export function FlagsSection({ form }: FlagsSectionProps) {
                       max="10"
                       placeholder="0"
                       {...field}
-                      onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                      onChange={(e) =>
+                        field.onChange(Number.parseInt(e.target.value) || 0)
+                      }
                     />
                   </FormControl>
                   <FormDescription>Distância de alvo (0-10)</FormDescription>
@@ -262,7 +341,9 @@ export function FlagsSection({ form }: FlagsSectionProps) {
                       max="100"
                       placeholder="0"
                       {...field}
-                      onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                      onChange={(e) =>
+                        field.onChange(Number.parseInt(e.target.value) || 0)
+                      }
                     />
                   </FormControl>
                   <FormDescription>Ataque estático (%)</FormDescription>
@@ -284,7 +365,9 @@ export function FlagsSection({ form }: FlagsSectionProps) {
                       max="100"
                       placeholder="0"
                       {...field}
-                      onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                      onChange={(e) =>
+                        field.onChange(Number.parseInt(e.target.value) || 0)
+                      }
                     />
                   </FormControl>
                   <FormDescription>Fugir com HP (%)</FormDescription>

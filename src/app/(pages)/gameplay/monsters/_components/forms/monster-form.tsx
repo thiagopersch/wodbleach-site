@@ -1,7 +1,13 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Form } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,7 +16,11 @@ import { useState } from 'react';
 import { Resolver, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { defaultMonsterValues, MonsterFormData, monsterFormSchema } from '@/lib/api/monsters/schemas';
+import {
+  defaultMonsterValues,
+  MonsterFormData,
+  monsterFormSchema,
+} from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
 import { MonsterPreview } from './monster-preview';
 import { AttacksSection } from './sections/attacks-section';
 import { BasicInfoSection } from './sections/basic-info-section';
@@ -34,7 +44,12 @@ interface MonsterFormProps {
   mode: 'create' | 'edit';
 }
 
-export function MonsterForm({ initialData, onSubmit, isLoading, mode }: MonsterFormProps) {
+export function MonsterForm({
+  initialData,
+  onSubmit,
+  isLoading,
+  mode,
+}: MonsterFormProps) {
   const [activeTab, setActiveTab] = useState('basic');
   const [showPreview, setShowPreview] = useState(false);
   const [showXml, setShowXml] = useState(false);
@@ -48,7 +63,11 @@ export function MonsterForm({ initialData, onSubmit, isLoading, mode }: MonsterF
   const handleSubmit = async (data: MonsterFormData) => {
     try {
       await onSubmit(data);
-      toast.success(mode === 'create' ? 'Monstro criado com sucesso!' : 'Monstro atualizado com sucesso!');
+      toast.success(
+        mode === 'create'
+          ? 'Monstro criado com sucesso!'
+          : 'Monstro atualizado com sucesso!',
+      );
     } catch (error) {
       toast.error('Erro ao salvar monstro. Tente novamente.');
       console.error('Error saving monster:', error);
@@ -60,44 +79,70 @@ export function MonsterForm({ initialData, onSubmit, isLoading, mode }: MonsterF
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col items-center justify-between md:flex-row">
         <div>
           <h1 className="text-3xl font-bold text-balance">
-            {mode === 'create' ? 'Criar Novo Monstro' : 'Editar Monstro'}
+            {mode === 'create' ? 'Criar novo monstro' : 'Editar monstro'}
           </h1>
-          <p className="text-muted-foreground text-pretty">Configure todas as propriedades do monstro para OTServ</p>
+          <p className="text-muted-foreground text-sm text-pretty">
+            {mode === 'create'
+              ? 'Configure todas as propriedades do monstro aqui.'
+              : 'Edite as propriedades do monstro aqui.'}
+          </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button type="button" variant="outline" size="sm" onClick={() => setShowPreview(!showPreview)}>
+        <div className="flex flex-col gap-2 max-md:w-full max-md:py-4 md:flex-row md:items-center">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => setShowPreview(!showPreview)}
+            className="max-md:w-full"
+          >
             <Eye className="mr-2 h-4 w-4" />
             {showPreview ? 'Ocultar' : 'Preview'}
           </Button>
-          <Button type="button" variant="outline" size="sm" onClick={() => setShowXml(!showXml)}>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => setShowXml(!showXml)}
+            className="max-md:w-full"
+          >
             <FileText className="mr-2 h-4 w-4" />
             {showXml ? 'Ocultar' : 'XML'}
           </Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-6 max-md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6">
         {/* Form */}
         <div className="lg:col-span-2">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+            <form
+              onSubmit={form.handleSubmit(handleSubmit)}
+              className="space-y-6"
+            >
               <Card className="form-section">
                 <CardHeader>
                   <CardTitle>Configuração do Monstro</CardTitle>
-                  <CardDescription>Use as abas abaixo para configurar todas as propriedades do monstro</CardDescription>
+                  <CardDescription>
+                    Use as abas abaixo para configurar todas as propriedades do
+                    monstro
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                    <TabsList className="grid w-full grid-cols-4 lg:grid-cols-7">
+                  <Tabs
+                    value={activeTab}
+                    onValueChange={setActiveTab}
+                    className="w-full"
+                  >
+                    <TabsList className="grid w-full grid-cols-2 lg:grid-cols-7">
                       <TabsTrigger value="basic">Básico</TabsTrigger>
                       <TabsTrigger value="health">Vida</TabsTrigger>
-                      <TabsTrigger value="look">Visual</TabsTrigger>
+                      <TabsTrigger value="look">Looktype/visual</TabsTrigger>
                       <TabsTrigger value="strategy">Estratégia</TabsTrigger>
                       <TabsTrigger value="flags">Flags</TabsTrigger>
-                      <TabsTrigger value="combat">Combate</TabsTrigger>
+                      <TabsTrigger value="combat">Combate/attacks</TabsTrigger>
                       <TabsTrigger value="advanced">Avançado</TabsTrigger>
                     </TabsList>
 
@@ -144,43 +189,49 @@ export function MonsterForm({ initialData, onSubmit, isLoading, mode }: MonsterF
                 </CardContent>
               </Card>
 
+              {/* Preview Panel */}
+              <div className="grid grid-cols-2 gap-6 space-y-6">
+                {showPreview && (
+                  <Card className="form-section">
+                    <CardHeader>
+                      <CardTitle>Preview</CardTitle>
+                      <CardDescription>Visualização do monstro</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <MonsterPreview data={watchedValues} />
+                    </CardContent>
+                  </Card>
+                )}
+
+                {showXml && (
+                  <Card className="form-section">
+                    <CardHeader>
+                      <CardTitle>XML Preview</CardTitle>
+                      <CardDescription>Código XML gerado</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <XmlPreview data={watchedValues} />
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+
               {/* Submit Button */}
               <div className="flex justify-end">
-                <Button type="submit" disabled={isLoading} size="lg">
-                  {isLoading && <Loader2 className="loading-spinner mr-2 h-4 w-4" />}
+                <Button
+                  type="submit"
+                  disabled={isLoading}
+                  className="max-md:w-full"
+                >
+                  {isLoading && (
+                    <Loader2 className="loading-spinner mr-2 h-4 w-4" />
+                  )}
                   <Save className="mr-2 h-4 w-4" />
                   {mode === 'create' ? 'Criar Monstro' : 'Salvar Alterações'}
                 </Button>
               </div>
             </form>
           </Form>
-        </div>
-
-        {/* Preview Panel */}
-        <div className="space-y-6">
-          {showPreview && (
-            <Card className="form-section">
-              <CardHeader>
-                <CardTitle>Preview</CardTitle>
-                <CardDescription>Visualização do monstro</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <MonsterPreview data={watchedValues} />
-              </CardContent>
-            </Card>
-          )}
-
-          {showXml && (
-            <Card className="form-section">
-              <CardHeader>
-                <CardTitle>XML Preview</CardTitle>
-                <CardDescription>Código XML gerado</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <XmlPreview data={watchedValues} />
-              </CardContent>
-            </Card>
-          )}
         </div>
       </div>
     </div>
