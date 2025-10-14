@@ -25,8 +25,8 @@ interface HealthSectionProps {
 }
 
 export function HealthSection({ form }: HealthSectionProps) {
-  const healthNow = form.watch('health_now');
-  const healthMax = form.watch('health_max');
+  const healthNow = form.watch('healthNow');
+  const healthMax = form.watch('healthMax');
   const healthPercentage = healthMax > 0 ? (healthNow / healthMax) * 100 : 0;
 
   return (
@@ -42,38 +42,10 @@ export function HealthSection({ form }: HealthSectionProps) {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <FormField
               control={form.control}
-              name="health_max"
+              name="healthNow"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>HP Máximo *</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      min="1"
-                      placeholder="100"
-                      {...field}
-                      onChange={(e) => {
-                        const value = Number.parseInt(e.target.value) || 100;
-                        field.onChange(value);
-                        // Auto-adjust current health if it exceeds max
-                        if (healthNow > value) {
-                          form.setValue('health_now', value);
-                        }
-                      }}
-                    />
-                  </FormControl>
-                  <FormDescription>Vida máxima do monstro</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="health_now"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>HP Atual</FormLabel>
+                  <FormLabel>HP Inicial *</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -94,6 +66,34 @@ export function HealthSection({ form }: HealthSectionProps) {
               )}
             />
           </div>
+
+          <FormField
+            control={form.control}
+            name="healthMax"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>HP Máximo *</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    min="1"
+                    placeholder="100"
+                    {...field}
+                    onChange={(e) => {
+                      const value = Number.parseInt(e.target.value) || 100;
+                      field.onChange(value);
+                      // Auto-adjust current health if it exceeds max
+                      if (healthNow > value) {
+                        form.setValue('healthNow', value);
+                      }
+                    }}
+                  />
+                </FormControl>
+                <FormDescription>Vida máxima do monstro</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           {/* Health Bar Preview */}
           <div className="space-y-2">
