@@ -77,6 +77,7 @@ const navigationLinks = [
       { href: '/gameplay/items', label: 'Itens' },
       { href: '/gameplay/monsters', label: 'Monstros' },
       { href: '/gameplay/techniques', label: 'Técnicas' },
+      { href: '/gameplay/vocations', label: 'Vocações' },
     ],
   },
   {
