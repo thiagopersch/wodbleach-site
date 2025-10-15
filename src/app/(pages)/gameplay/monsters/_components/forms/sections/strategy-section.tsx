@@ -79,7 +79,7 @@ export function StrategySection({ form }: StrategySectionProps) {
                       />
                     </FormControl>
                     <FormDescription>
-                      Agressividade do monstro (0-100)
+                      Agressividade do monstro (0-100%)
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -105,7 +105,7 @@ export function StrategySection({ form }: StrategySectionProps) {
                       />
                     </FormControl>
                     <FormDescription>
-                      Comportamento defensivo (0-100)
+                      Comportamento defensivo (0-100%)
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -133,7 +133,7 @@ export function StrategySection({ form }: StrategySectionProps) {
                     />
                   </FormControl>
                   <FormDescription>
-                    Tempo em ms para mudar de alvo
+                    Tempo em <b>ms</b> para mudar de alvo
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

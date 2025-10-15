@@ -1,6 +1,7 @@
 'use client';
 
 import type { MonsterFormData } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -20,6 +21,7 @@ import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import type { UseFormReturn } from 'react-hook-form';
+import { useFieldArray } from 'react-hook-form';
 
 interface VoicesSectionProps {
   form: UseFormReturn<MonsterFormData>;
@@ -27,6 +29,10 @@ interface VoicesSectionProps {
 
 export function VoicesSection({ form }: VoicesSectionProps) {
   const isVoicesEnabled = form.watch('is_voices');
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: 'voices',
+  });
 
   return (
     <Card>
@@ -113,48 +119,72 @@ export function VoicesSection({ form }: VoicesSectionProps) {
               />
             </div>
 
-            <FormField
-              control={form.control}
-              name="voice_sentence"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Frase</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Ex: MUHAHAHAHA!, Your soul will be mine!"
-                      className="resize-none"
-                      rows={3}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Frase que o monstro irá falar (máximo 100 caracteres)
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="space-y-4">
+              <h4 className="text-sm font-medium">Frases</h4>
+              {fields.map((field, index) => (
+                <div key={field.id} className="space-y-4 rounded-md border p-4">
+                  <FormField
+                    control={form.control}
+                    name={`voices.${index}.voice_sentence`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Frase</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Ex: MUHAHAHAHA!, Your soul will be mine!"
+                            className="resize-none"
+                            rows={3}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          Frase que o monstro irá falar (máximo 100 caracteres)
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-            <FormField
-              control={form.control}
-              name="voice_yell"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                  <div className="space-y-0.5">
-                    <FormLabel>Gritar</FormLabel>
-                    <FormDescription>
-                      A fala será em formato de grito (maiúscula e mais visível)
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+                  <FormField
+                    control={form.control}
+                    name={`voices.${index}.voice_yell`}
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
+                        <div className="space-y-0.5">
+                          <FormLabel>Gritar</FormLabel>
+                          <FormDescription>
+                            A fala será em formato de grito (maiúscula e mais
+                            visível)
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={!!field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() => remove(index)}
+                  >
+                    Remover Frase
+                  </Button>
+                </div>
+              ))}
+              <Button
+                type="button"
+                onClick={() =>
+                  append({ voice_sentence: '', voice_yell: false })
+                }
+              >
+                Adicionar Frase
+              </Button>
+            </div>
 
             <div className="bg-muted/50 rounded-lg p-4">
               <p className="text-muted-foreground text-sm">

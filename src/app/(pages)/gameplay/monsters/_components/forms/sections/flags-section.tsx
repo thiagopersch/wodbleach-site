@@ -333,7 +333,7 @@ export function FlagsSection({ form }: FlagsSectionProps) {
               name="flag_staticattack"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Static Attack</FormLabel>
+                  <FormLabel>Ataque estático</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -357,7 +357,7 @@ export function FlagsSection({ form }: FlagsSectionProps) {
               name="flag_runonhealth"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Run on Health</FormLabel>
+                  <FormLabel>Fugir com HP abaixo</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -370,7 +370,9 @@ export function FlagsSection({ form }: FlagsSectionProps) {
                       }
                     />
                   </FormControl>
-                  <FormDescription>Fugir com HP (%)</FormDescription>
+                  <FormDescription>
+                    Fugir com HP abaixo de x% (Ex: 30)
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

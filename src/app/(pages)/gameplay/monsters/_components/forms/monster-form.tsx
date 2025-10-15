@@ -61,17 +61,12 @@ export function MonsterForm({
   });
 
   const handleSubmit = async (data: MonsterFormData) => {
-    try {
-      await onSubmit(data);
-      toast.success(
-        mode === 'create'
-          ? 'Monstro criado com sucesso!'
-          : 'Monstro atualizado com sucesso!',
-      );
-    } catch (error) {
-      toast.error('Erro ao salvar monstro. Tente novamente.');
-      console.error('Error saving monster:', error);
-    }
+    await onSubmit(data);
+    toast.success(
+      mode === 'create'
+        ? 'Monstro criado com sucesso!'
+        : 'Monstro atualizado com sucesso!',
+    );
   };
 
   const watchedValues = form.watch();

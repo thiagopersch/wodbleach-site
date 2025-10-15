@@ -26,8 +26,17 @@ export const monstersApi = {
 
   // Create new monster
   create: async (data: MonsterFormData): Promise<Monster> => {
-    const response = await api.post('/monsters', data);
-    return response.data;
+    try {
+      const response = await api.post('/monsters', data);
+      return response.data;
+    } catch (error: any) {
+      if (
+        error.response?.data?.error === 'Já existe um monstro com este nome'
+      ) {
+        throw new Error('Já existe um monstro com este nome');
+      }
+      throw error;
+    }
   },
 
   // Update monster
@@ -35,8 +44,17 @@ export const monstersApi = {
     id: string,
     data: Partial<MonsterFormData>,
   ): Promise<Monster> => {
-    const response = await api.put(`/monsters/${id}`, data);
-    return response.data;
+    try {
+      const response = await api.put(`/monsters/${id}`, data);
+      return response.data;
+    } catch (error: any) {
+      if (
+        error.response?.data?.error === 'Já existe um monstro com este nome'
+      ) {
+        throw new Error('Já existe um monstro com este nome');
+      }
+      throw error;
+    }
   },
 
   // Delete monster

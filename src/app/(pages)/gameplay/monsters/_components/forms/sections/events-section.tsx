@@ -1,6 +1,7 @@
 'use client';
 
 import type { MonsterFormData } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -18,7 +19,9 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
+import { Trash2 } from 'lucide-react';
 import type { UseFormReturn } from 'react-hook-form';
+import { useFieldArray } from 'react-hook-form';
 
 interface EventsSectionProps {
   form: UseFormReturn<MonsterFormData>;
@@ -26,6 +29,10 @@ interface EventsSectionProps {
 
 export function EventsSection({ form }: EventsSectionProps) {
   const isEventsEnabled = form.watch('is_monster_event_script');
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: 'events',
+  });
 
   return (
     <Card>
@@ -61,53 +68,48 @@ export function EventsSection({ form }: EventsSectionProps) {
 
         {isEventsEnabled && (
           <>
-            <FormField
-              control={form.control}
-              name="event_name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nome do Evento</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Ex: KillingInTheNameOf, MonsterDeath"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Nome do script de evento (máximo 100 caracteres)
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="bg-muted/50 space-y-3 rounded-lg p-4">
-              <p className="text-sm font-medium">Eventos Comuns:</p>
-              <div className="text-muted-foreground grid grid-cols-1 gap-2 text-xs md:grid-cols-2">
-                <div>
-                  <strong>KillingInTheNameOf</strong> - Evento de morte
-                </div>
-                <div>
-                  <strong>MonsterDeath</strong> - Ao morrer
-                </div>
-                <div>
-                  <strong>MonsterSpawn</strong> - Ao nascer
-                </div>
-                <div>
-                  <strong>MonsterAttack</strong> - Ao atacar
-                </div>
-                <div>
-                  <strong>MonsterDefend</strong> - Ao se defender
-                </div>
-                <div>
-                  <strong>MonsterMove</strong> - Ao se mover
-                </div>
+            <div className="space-y-4">
+              <h4 className="text-sm font-medium">Eventos</h4>
+              <div className="bg-muted/50 space-y-3 rounded-lg p-4">
+                <p className="text-muted-foreground text-xs">
+                  <strong>Nota:</strong> O script deve existir no servidor para
+                  funcionar corretamente.
+                </p>
               </div>
-              <p className="text-muted-foreground mt-2 text-xs">
-                <strong>Nota:</strong> O script deve existir no servidor para
-                funcionar corretamente. Consulte a documentação do seu OTServ
-                para mais detalhes sobre criação de scripts.
-              </p>
+              {fields.map((field, index) => (
+                <div key={field.id} className="flex items-center gap-2">
+                  <FormField
+                    control={form.control}
+                    name={`events.${index}.event_name`}
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>Nome do Evento</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Ex: KillingInTheNameOf"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          Nome do script de evento
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="icon"
+                    onClick={() => remove(index)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              ))}
+              <Button type="button" onClick={() => append({ event_name: '' })}>
+                Adicionar um novo
+              </Button>
             </div>
           </>
         )}

@@ -32,6 +32,23 @@ interface BasicInfoSectionProps {
   form: UseFormReturn<MonsterFormData>;
 }
 
+const races = [
+  { value: 'blood', label: 'Blood' },
+  { value: 'energy', label: 'Energy' },
+  { value: 'fire', label: 'Fire' },
+  { value: 'venom', label: 'Venom' },
+  { value: 'undead', label: 'Undead' },
+];
+
+const skulls = [
+  { value: '0', label: 'Nenhuma' },
+  { value: '1', label: 'Amarela' },
+  { value: '2', label: 'Verde' },
+  { value: '3', label: 'Branca' },
+  { value: '4', label: 'Vermelha' },
+  { value: '5', label: 'Preta' },
+];
+
 export function BasicInfoSection({ form }: BasicInfoSectionProps) {
   return (
     <div className="space-y-6">
@@ -77,22 +94,13 @@ export function BasicInfoSection({ form }: BasicInfoSectionProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="blood">
-                        <span className={getRaceColor('blood')}>Blood</span>
-                      </SelectItem>
-                      <SelectItem value="energy">
-                        <span className={getRaceColor('energy')}>Energy</span>
-                      </SelectItem>
-
-                      <SelectItem value="fire">
-                        <span className={getRaceColor('fire')}>Fire</span>
-                      </SelectItem>
-                      <SelectItem value="venom">
-                        <span className={getRaceColor('venom')}>Venom</span>
-                      </SelectItem>
-                      <SelectItem value="undead">
-                        <span className={getRaceColor('undead')}>Undead</span>
-                      </SelectItem>
+                      {races.map((race) => (
+                        <SelectItem key={race.value} value={race.value}>
+                          <span className={getRaceColor(race.value)}>
+                            {race.label}
+                          </span>
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   <FormDescription>Tipo de raça do monstro</FormDescription>
@@ -118,12 +126,11 @@ export function BasicInfoSection({ form }: BasicInfoSectionProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="0">Nenhuma</SelectItem>
-                      <SelectItem value="1">Amarela</SelectItem>
-                      <SelectItem value="2">Verde</SelectItem>
-                      <SelectItem value="3">Branca</SelectItem>
-                      <SelectItem value="4">Vermelha</SelectItem>
-                      <SelectItem value="5">Preta</SelectItem>
+                      {skulls.map((skull) => (
+                        <SelectItem key={skull.value} value={skull.value}>
+                          {skull.label}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   <FormDescription>
@@ -150,7 +157,7 @@ export function BasicInfoSection({ form }: BasicInfoSectionProps) {
                   />
                 </FormControl>
                 <FormDescription>
-                  Descrição que aparece no jogo (máximo 100 caracteres)
+                  Descrição que aparece ao dar look (máximo 100 caracteres)
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -176,7 +183,7 @@ export function BasicInfoSection({ form }: BasicInfoSectionProps) {
                     />
                   </FormControl>
                   <FormDescription>
-                    XP que o monstro dá ao morrer
+                    XP que o monstro dará ao morrer
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -200,7 +207,7 @@ export function BasicInfoSection({ form }: BasicInfoSectionProps) {
                       }
                     />
                   </FormControl>
-                  <FormDescription>Velocidade de movimento</FormDescription>
+                  <FormDescription>Velocidade de locomoção</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

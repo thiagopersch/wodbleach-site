@@ -30,7 +30,11 @@ export function useCreateMonster() {
       toast.success('Monstro criado com sucesso!');
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.error || 'Erro ao criar monstro');
+      toast.error(
+        error.message === 'Já existe um monstro com este nome'
+          ? 'Já existe um monstro com este nome'
+          : error.response?.data?.error || 'Erro ao criar monstro',
+      );
     },
   });
 }
@@ -39,14 +43,19 @@ export function useUpdateMonster() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: any }) => monstersApi.update(id, data),
+    mutationFn: ({ id, data }: { id: string; data: any }) =>
+      monstersApi.update(id, data),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['monsters'] });
       queryClient.invalidateQueries({ queryKey: ['monsters', data.id] });
       toast.success('Monstro atualizado com sucesso!');
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.error || 'Erro ao atualizar monstro');
+      toast.error(
+        error.message === 'Já existe um monstro com este nome'
+          ? 'Já existe um monstro com este nome'
+          : error.response?.data?.error || 'Erro ao atualizar monstro',
+      );
     },
   });
 }
@@ -88,7 +97,11 @@ export function useImportMonsterXml() {
       toast.success('Monstro importado com sucesso!');
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.error || 'Erro ao importar monstro');
+      toast.error(
+        error.response?.data?.error === 'Já existe um monstro com este nome'
+          ? 'Já existe um monstro com este nome'
+          : error.response?.data?.error || 'Erro ao importar monstro',
+      );
     },
   });
 }

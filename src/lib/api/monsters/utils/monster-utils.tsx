@@ -1,7 +1,37 @@
-import { Monster } from '../../../../app/(pages)/gameplay/monsters/_hooks/schemas';
+import { Monster } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
 
 // Convert monster data to XML format
 export function monsterToXml(monster: Monster): string {
+  const generateAttackXml = (attack: Monster['attacks'][0]) => {
+    const attributes = [
+      `name="${attack.name}"`,
+      `interval="${attack.interval}"`,
+      attack.min !== 0 ? `min="${attack.min}"` : '',
+      attack.max !== 0 ? `max="${attack.max}"` : '',
+      attack.chance ? `chance="${attack.chance}"` : '',
+      attack.range ? `range="${attack.range}"` : '',
+      attack.skill ? `skill="${attack.skill}"` : '',
+      attack.attack ? `attack="${attack.attack}"` : '',
+      attack.radius ? `radius="${attack.radius}"` : '',
+      attack.target ? `target="${attack.target}"` : '',
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+    const attributeTags =
+      attack.hasAttributes && attack.attributes
+        ? attack.attributes
+            .filter((attr) => attr.key && attr.value)
+            .map(
+              (attr) =>
+                `    <attribute key="${attr.key}" value="${attr.value}" />`,
+            )
+            .join('\n')
+        : '';
+
+    return `<attack ${attributes}>${attributeTags ? `\n${attributeTags}\n  ` : ''}</attack>`;
+  };
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <monster name="${monster.name}" nameDescription="${monster.description || `a ${monster.name.toLowerCase()}`}" race="${monster.race}" experience="${monster.experience}" speed="${monster.speed}"${monster.manacost > 0 ? ` manacost="${monster.manacost}"` : ''}>
   <health now="${monster.healthNow}" max="${monster.healthMax}" />
@@ -9,9 +39,9 @@ export function monsterToXml(monster: Monster): string {
   ${monster.targetchange_interval > 0 || monster.targetchange_chance > 0 ? `<targetchange interval="${monster.targetchange_interval}" chance="${monster.targetchange_chance}" />` : ''}
   ${monster.is_strategy ? `<strategy attack="${monster.strategy_attack}" defense="${monster.strategy_defense}" />` : ''}
   ${
-    monster.is_monster_event_script && monster.event_name
+    monster.is_monster_event_script && monster.events?.length > 0
       ? `<script>
-    <event name="${monster.event_name}" />
+    ${monster.events.map((event) => `<event name="${event.event_name}" />`).join('\n')}
   </script>`
       : ''
   }
@@ -29,17 +59,23 @@ export function monsterToXml(monster: Monster): string {
     ${monster.flag_runonhealth > 0 ? `<flag runonhealth="${monster.flag_runonhealth}" />` : ''}
   </flags>
   ${
-    monster.is_attacks && monster.attack_name
+    monster.is_attacks && monster.attacks && monster.attacks.length > 0
       ? `<attacks>
-    <attack name="${monster.attack_name}"${monster.attack_interval ? ` interval="${monster.attack_interval}"` : ''}${monster.attack_min ? ` min="${monster.attack_min}"` : ''}${monster.attack_max ? ` max="${monster.attack_max}"` : ''}${monster.attack_chance > 0 ? ` chance="${monster.attack_chance}"` : ''}${monster.attack_range > 0 ? ` range="${monster.attack_range}"` : ''} />
+    ${monster.attacks.map((attack) => `  ${generateAttackXml(attack)}`).join('\n')}
   </attacks>`
       : ''
   }
   ${
     monster.is_defenses
       ? `<defenses armor="${monster.defenses_armor}" defense="${monster.defenses_defense}">
-    ${monster.defense_name ? `<defense name="${monster.defense_name}" interval="${monster.defense_interval}" chance="${monster.defense_chance}" min="${monster.defense_min}" max="${monster.defense_max}" />` : ''}
-  </defenses>`
+      ${monster.defenses
+        .map(
+          (
+            defense,
+          ) => `<defense name="${defense.defense_name}" interval="${defense.defense_interval}" chance="${defense.defense_chance}" min="${defense.defense_min}" max="${defense.defense_max}" />
+  </defenses>`,
+        )
+        .join('\n')}`
       : ''
   }
   ${
@@ -58,7 +94,7 @@ export function monsterToXml(monster: Monster): string {
     ${monster.element_healing_percent !== '0' ? `<element healingPercent="${monster.element_healing_percent}" />` : ''}
     ${monster.element_undefined_percent !== '0' ? `<element undefinedPercent="${monster.element_undefined_percent}" />` : ''}
   </elements>`
-      : null
+      : ''
   }
   ${
     monster.is_immunities
@@ -81,25 +117,41 @@ export function monsterToXml(monster: Monster): string {
       : ''
   }
   ${
-    monster.is_summons && monster.summon_name
+    monster.is_summons && monster.summons?.length > 0
       ? `<summons maxSummons="${monster.summons_max}">
-    <summon name="${monster.summon_name}" interval="${monster.summon_interval}" chance="${monster.summon_chance}" max="${monster.summon_max}" />
+    ${monster.summons.map((summon) => `<summon name="${summon.summon_name}" interval="${summon.summon_interval}" chance="${summon.summon_chance}" max="${summon.summon_max}" />`)}
   </summons>`
       : ''
   }
   ${
-    monster.is_voices && monster.voice_sentence
+    monster.is_voices && monster.voices?.length > 0
       ? `<voices interval="${monster.voices_interval}" chance="${monster.voices_chance}">
-    <voice sentence="${monster.voice_sentence}" yell="${monster.voice_yell ? '1' : '0'}" />
+    ${monster.voices.map((voice) => `<voice sentence="${voice.voice_sentence}" yell="${voice.voice_yell ? '1' : '0'}" />`)}
   </voices>`
       : ''
   }
   ${
-    monster.is_loot && monster.loot_item_id > 0
+    monster.is_loot && monster.loot?.length > 0
       ? `<loot>
-    <item id="${monster.loot_item_id}"${monster.loot_item_countmax > 0 ? ` countmax="${monster.loot_item_countmax}"` : ''} chance="${monster.loot_item_chance}" />
-  </loot>`
-      : null
+  ${
+    monster.is_inside_container
+      ? `<item id="1987" chance="100000">
+          <inside>
+          ${monster.loot.map(
+            (loot) =>
+              `<item id="${loot.loot_item_id}"${loot.loot_item_countmax > 0 ? ` countmax="${loot.loot_item_countmax}"` : null} chance="${loot.loot_item_chance}" />`,
+          )}
+          </inside>
+        </item>`
+      : monster.loot
+          .map(
+            (loot) =>
+              `<item id="${loot.loot_item_id}"${loot.loot_item_countmax > 0 ? ` countmax="${loot.loot_item_countmax}"` : null} chance="${loot.loot_item_chance}" />`,
+          )
+          .join('\n')
+  }
+</loot>`
+      : ''
   }
 </monster>`;
 
@@ -151,16 +203,16 @@ export function getSkullName(skull: number): string {
 }
 
 // Calculate monster difficulty based on stats
-export function calculateDifficulty(
-  monster: Monster,
-): 'Easy' | 'Medium' | 'Hard' | 'Extreme' {
+type Difficulty = 'Easy' | 'Medium' | 'Hard' | 'Extreme' | 'God';
+export function calculateDifficulty(monster: Monster): Difficulty {
   const score =
     monster.experience + monster.healthMax / 10 + monster.speed / 10;
 
-  if (score < 100) return 'Easy';
-  if (score < 1000) return 'Medium';
-  if (score < 5000) return 'Hard';
-  return 'Extreme';
+  if (score < 1000) return 'Easy';
+  if (score < 10000) return 'Medium';
+  if (score < 50000) return 'Hard';
+  if (score < 100000) return 'Extreme';
+  return 'God';
 }
 
 // Get difficulty color

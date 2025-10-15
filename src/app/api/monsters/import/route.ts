@@ -1,10 +1,9 @@
-import { MonsterDB } from '@/lib/db';
-import { type NextRequest, NextResponse } from 'next/server';
-
 import {
   defaultMonsterValues,
   monsterFormSchema,
 } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
+import { MonsterDB } from '@/lib/db';
+import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 // POST /api/monsters/import - Import monster from XML
@@ -63,8 +62,8 @@ export async function POST(request: NextRequest) {
 // Helper function to parse XML to monster data
 function parseXmlToMonster(xml: string) {
   try {
-    // Basic XML parsing (simplified for demo - in production use a proper XML parser)
-    const monsterData = { ...defaultMonsterValues };
+    // Basic XML parsing (simplified - use xml2js in production)
+    const monsterData = { ...defaultMonsterValues, attacks: [] as any[] };
 
     // Extract monster attributes
     const monsterMatch = xml.match(/<monster\s+([^>]+)>/i);
@@ -184,6 +183,89 @@ function parseXmlToMonster(xml: string) {
       });
     }
 
+    // Extract attacks
+    const attacksMatch = xml.match(/<attacks>([\s\S]*?)<\/attacks>/i);
+    if (attacksMatch) {
+      const attackMatches =
+        attacksMatch[1].match(/<attack\s+([^>]+)>([\s\S]*?)<\/attack>/gi) || [];
+      monsterData.attacks = attackMatches.map((attackMatch: string) => {
+        const attackData: any = {
+          isSimple: true,
+          hasAttributes: false,
+          attributes: [],
+        };
+
+        // Extract attack attributes
+        const attrMatch = attackMatch.match(/<attack\s+([^>]+)>/i);
+        if (attrMatch) {
+          const attributes = attrMatch[1];
+
+          const nameMatch = attributes.match(/name="([^"]+)"/i);
+          if (nameMatch) attackData.name = nameMatch[1];
+
+          const intervalMatch = attributes.match(/interval="(\d+)"/i);
+          if (intervalMatch)
+            attackData.interval = Number.parseInt(intervalMatch[1]);
+
+          const minMatch = attributes.match(/min="-?(\d+)"/i);
+          if (minMatch)
+            attackData.min =
+              Number.parseInt(minMatch[1]) *
+              (attributes.includes('min="-') ? -1 : 1);
+
+          const maxMatch = attributes.match(/max="-?(\d+)"/i);
+          if (maxMatch)
+            attackData.max =
+              Number.parseInt(maxMatch[1]) *
+              (attributes.includes('max="-') ? -1 : 1);
+
+          const chanceMatch = attributes.match(/chance="(\d+)"/i);
+          if (chanceMatch) attackData.chance = Number.parseInt(chanceMatch[1]);
+
+          const rangeMatch = attributes.match(/range="(\d+)"/i);
+          if (rangeMatch) attackData.range = Number.parseInt(rangeMatch[1]);
+
+          const skillMatch = attributes.match(/skill="(\d+)"/i);
+          if (skillMatch) attackData.skill = Number.parseInt(skillMatch[1]);
+
+          const attackAttrMatch = attributes.match(/attack="(\d+)"/i);
+          if (attackAttrMatch)
+            attackData.attack = Number.parseInt(attackAttrMatch[1]);
+
+          const radiusMatch = attributes.match(/radius="(\d+)"/i);
+          if (radiusMatch) {
+            attackData.radius = Number.parseInt(radiusMatch[1]);
+            attackData.isSimple = false;
+          }
+
+          const targetMatch = attributes.match(/target="(\d+)"/i);
+          if (targetMatch) {
+            attackData.target = Number.parseInt(targetMatch[1]);
+            attackData.isSimple = false;
+          }
+        }
+
+        // Extract attack attributes (key-value pairs)
+        const attrMatches = attackMatch.match(
+          /<attribute\s+key="([^"]+)"\s+value="([^"]+)"\s*\/>/gi,
+        );
+        if (attrMatches) {
+          attackData.hasAttributes = true;
+          attackData.attributes = attrMatches.map((attr) => {
+            const keyMatch = attr.match(/key="([^"]+)"/i);
+            const valueMatch = attr.match(/value="([^"]+)"/i);
+            return {
+              key: keyMatch ? keyMatch[1] : '',
+              value: valueMatch ? valueMatch[1] : '',
+            };
+          });
+        }
+
+        return attackData;
+      });
+      monsterData.is_attacks = monsterData.attacks.length > 0;
+    }
+
     // Extract defenses
     const defensesMatch = xml.match(/<defenses\s+([^>]+)>/i);
     if (defensesMatch) {
@@ -253,14 +335,14 @@ function parseXmlToMonster(xml: string) {
     }
 
     const voiceMatch = xml.match(/<voice\s+([^>]+)>/i);
-    if (voiceMatch) {
-      const attributes = voiceMatch[1];
-
-      const sentenceMatch = attributes.match(/sentence="([^"]+)"/i);
-      if (sentenceMatch) monsterData.voice_sentence = sentenceMatch[1];
-
-      const yellMatch = attributes.match(/yell="([^"]+)"/i);
-      if (yellMatch) monsterData.voice_yell = yellMatch[1] === '1';
+    if (voiceMatch && monsterData.is_voices) {
+      const voiceAttributes = voiceMatch[1];
+      const sentenceMatch = voiceAttributes.match(/sentence="([^"]+)"/i);
+      const yellMatch = voiceAttributes.match(/yell="([^"]+)"/i);
+      monsterData.voices.push({
+        voice_sentence: sentenceMatch ? sentenceMatch[1] : '',
+        voice_yell: yellMatch ? yellMatch[1] === '1' : false,
+      });
     }
 
     return monsterData;

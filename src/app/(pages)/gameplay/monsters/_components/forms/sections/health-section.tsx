@@ -1,5 +1,3 @@
-'use client';
-
 import type { MonsterFormData } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
 import {
   Card,
@@ -10,7 +8,6 @@ import {
 } from '@/components/ui/card';
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -35,11 +32,38 @@ export function HealthSection({ form }: HealthSectionProps) {
         <CardHeader>
           <CardTitle>Configurações de Vida</CardTitle>
           <CardDescription>
-            Configure a vida atual e máxima do monstro
+            Configure a vida inicial e máxima do monstro
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <FormField
+              control={form.control}
+              name="healthMax"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>HP Máximo *</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min="1"
+                      placeholder="100"
+                      {...field}
+                      onChange={(e) => {
+                        const value = Number.parseInt(e.target.value) || 100;
+                        field.onChange(value);
+                        // Auto-adjust current health if it exceeds max
+                        if (healthNow > value) {
+                          form.setValue('healthNow', value);
+                        }
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="healthNow"
@@ -49,51 +73,20 @@ export function HealthSection({ form }: HealthSectionProps) {
                   <FormControl>
                     <Input
                       type="number"
-                      min="0"
+                      min="1"
                       max={healthMax}
                       placeholder="100"
                       {...field}
                       onChange={(e) =>
-                        field.onChange(Number.parseInt(e.target.value) || 0)
+                        field.onChange(Number.parseInt(e.target.value) || 1)
                       }
                     />
                   </FormControl>
-                  <FormDescription>
-                    Vida atual do monstro (máximo: {healthMax})
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-
-          <FormField
-            control={form.control}
-            name="healthMax"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>HP Máximo *</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    min="1"
-                    placeholder="100"
-                    {...field}
-                    onChange={(e) => {
-                      const value = Number.parseInt(e.target.value) || 100;
-                      field.onChange(value);
-                      // Auto-adjust current health if it exceeds max
-                      if (healthNow > value) {
-                        form.setValue('healthNow', value);
-                      }
-                    }}
-                  />
-                </FormControl>
-                <FormDescription>Vida máxima do monstro</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
 
           {/* Health Bar Preview */}
           <div className="space-y-2">

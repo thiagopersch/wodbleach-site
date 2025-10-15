@@ -11,7 +11,6 @@ interface RouteParams {
   }>;
 }
 
-// GET /api/monsters/[id] - Get monster by ID
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const session = await getServerSession(authOptions);
@@ -45,7 +44,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-// PUT /api/monsters/[id] - Update monster
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     const session = await getServerSession(authOptions);
@@ -56,6 +54,23 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     const body = await request.json();
     const validatedData = monsterFormSchema.partial().parse(body);
     const { id } = await params;
+
+    // Check if name already exists
+    if (validatedData.name) {
+      const existingMonster = await prisma.monster.findFirst({
+        where: {
+          name: validatedData.name,
+          id: { not: Number.parseInt(id) },
+        },
+      });
+
+      if (existingMonster) {
+        return NextResponse.json(
+          { error: 'Já existe um monstro com este nome' },
+          { status: 400 },
+        );
+      }
+    }
 
     // Update monster with related data
     const monster = await prisma.monster.update({
@@ -149,70 +164,45 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
         // Event script
         events:
-          validatedData.is_monster_event_script && validatedData.event_name
+          validatedData.is_monster_event_script && validatedData.events?.length
             ? {
-                create: [
-                  {
-                    name: validatedData.event_name,
-                  },
-                ],
+                create: validatedData.events.map((event) => ({
+                  name: event.event_name ?? '',
+                })),
               }
             : undefined,
 
         // Update related data
         attacks:
-          validatedData.is_attacks !== undefined && validatedData.attack_name
+          validatedData.is_attacks && validatedData.attacks?.length
             ? {
-                // Example: updateMany or createMany depending on your logic
-                // Here we use updateMany if you want to update existing attacks by some unique field (e.g., name)
-                updateMany: [
-                  {
-                    where: { name: validatedData.attack_name },
-                    data: {
-                      is_attack_simple: validatedData.is_attack_simple || false,
-                      interval: validatedData.attack_interval
-                        ? Number(validatedData.attack_interval)
-                        : undefined,
-                      min: validatedData.attack_min,
-                      max: validatedData.attack_max,
-                      chance: validatedData.attack_chance || 0,
-                      range: validatedData.attack_range || 0,
-                      speedchange: validatedData.attack_speedchange || 0,
-                      duration: validatedData.attack_duration || 0,
-                      target: validatedData.attack_target || 0,
-                      attack_attribute_key:
-                        validatedData.attack_attribute_key || '',
-                      attack_attribute_value:
-                        validatedData.attack_attribute_value ?? '',
-                    },
-                  },
-                ],
-                // If you want to create a new attack if not exists, use createMany
-                createMany: {
-                  data: [
-                    {
-                      is_attack_simple: validatedData.is_attack_simple || false,
-                      name: validatedData.attack_name,
-                      interval: validatedData.attack_interval
-                        ? Number(validatedData.attack_interval)
-                        : undefined,
-                      min: validatedData.attack_min,
-                      max: validatedData.attack_max,
-                      chance: validatedData.attack_chance || 0,
-                      range: validatedData.attack_range || 0,
-                      speedchange: validatedData.attack_speedchange || 0,
-                      duration: validatedData.attack_duration || 0,
-                      target: validatedData.attack_target || 0,
-                      attack_attribute_key:
-                        validatedData.attack_attribute_key || '',
-                      attack_attribute_value:
-                        validatedData.attack_attribute_value ?? '',
-                    },
-                  ],
-                  skipDuplicates: true,
-                },
+                deleteMany: {}, // Clear existing attacks
+                create: validatedData.attacks.map((attack) => ({
+                  is_attack_simple: attack.isSimple ?? false,
+                  name: attack.name,
+                  interval: attack.interval,
+                  min: attack.min,
+                  max: attack.max,
+                  chance: attack.chance ?? 0,
+                  range: attack.range ?? 0,
+                  skill: attack.skill ?? 0,
+                  attack: attack.attack ?? 0,
+                  radius: attack.radius ?? 0,
+                  target: attack.target ?? 0,
+                  attributes:
+                    attack.hasAttributes && attack.attributes?.length
+                      ? {
+                          create: attack.attributes
+                            .filter((attr) => attr.key && attr.value)
+                            .map((attr) => ({
+                              key: attr.key!,
+                              value: attr.value!,
+                            })),
+                        }
+                      : undefined,
+                })),
               }
-            : undefined,
+            : { deleteMany: {} },
       },
       include: {
         attacks: true,

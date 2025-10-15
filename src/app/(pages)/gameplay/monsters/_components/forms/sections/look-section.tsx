@@ -1,5 +1,3 @@
-'use client';
-
 import type { MonsterFormData } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
 import {
   Card,
@@ -40,7 +38,7 @@ export function LookSection({ form }: LookSectionProps) {
               name="look_type_id"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Look Type ID</FormLabel>
+                  <FormLabel>LookType ID</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -52,7 +50,6 @@ export function LookSection({ form }: LookSectionProps) {
                       }
                     />
                   </FormControl>
-                  <FormDescription>ID do sprite do monstro</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -63,7 +60,7 @@ export function LookSection({ form }: LookSectionProps) {
               name="look_type_corpse"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Corpse ID</FormLabel>
+                  <FormLabel>Corpse</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -75,7 +72,6 @@ export function LookSection({ form }: LookSectionProps) {
                       }
                     />
                   </FormControl>
-                  <FormDescription>ID do corpo quando morto</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -95,7 +91,7 @@ export function LookSection({ form }: LookSectionProps) {
                       <Input
                         type="number"
                         min="0"
-                        max="255"
+                        max="3"
                         placeholder="0"
                         {...field}
                         onChange={(e) =>
@@ -103,6 +99,7 @@ export function LookSection({ form }: LookSectionProps) {
                         }
                       />
                     </FormControl>
+                    <FormDescription>Id da cor da head</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -126,6 +123,7 @@ export function LookSection({ form }: LookSectionProps) {
                         }
                       />
                     </FormControl>
+                    <FormDescription>Id da cor do body</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -149,6 +147,7 @@ export function LookSection({ form }: LookSectionProps) {
                         }
                       />
                     </FormControl>
+                    <FormDescription>Id da cor da legs</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -172,6 +171,7 @@ export function LookSection({ form }: LookSectionProps) {
                         }
                       />
                     </FormControl>
+                    <FormDescription>Id da cor da feet</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -190,14 +190,17 @@ export function LookSection({ form }: LookSectionProps) {
                     <Input
                       type="number"
                       min="0"
-                      placeholder="0"
+                      max="3"
+                      placeholder="3"
                       {...field}
                       onChange={(e) =>
                         field.onChange(Number.parseInt(e.target.value) || 0)
                       }
                     />
                   </FormControl>
-                  <FormDescription>Addons do outfit</FormDescription>
+                  <FormDescription>
+                    Quantidade de addons no outfit
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -208,7 +211,7 @@ export function LookSection({ form }: LookSectionProps) {
               name="look_type_mount"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Mount ID</FormLabel>
+                  <FormLabel>Id da Montaria</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -220,7 +223,7 @@ export function LookSection({ form }: LookSectionProps) {
                       }
                     />
                   </FormControl>
-                  <FormDescription>ID da montaria</FormDescription>
+                  <FormDescription>Número do id da montaria</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -231,19 +234,20 @@ export function LookSection({ form }: LookSectionProps) {
               name="look_type_typex"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Type X</FormLabel>
+                  <FormLabel>Sexo</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
                       min="0"
-                      placeholder="0"
+                      max="2"
+                      placeholder="1"
                       {...field}
                       onChange={(e) =>
                         field.onChange(Number.parseInt(e.target.value) || 0)
                       }
                     />
                   </FormControl>
-                  <FormDescription>Parâmetro adicional</FormDescription>
+                  <FormDescription>Sexo da outfit</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

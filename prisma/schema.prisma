@@ -1,8 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  /**
-   * output   = "../src/generated/prisma"
-   */
 }
 
 datasource db {
@@ -238,6 +235,7 @@ model MonsterAttack {
   range                  Int     @default(1)
   min                    Int     @default(0)
   max                    Int     @default(0)
+  skill                  Int     @default(0)
   is_attack_simple       Boolean @default(false) @map("is_attack_simple")
   speedchange            Int     @default(0)
   duration               Int     @default(0)

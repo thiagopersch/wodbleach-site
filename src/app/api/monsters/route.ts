@@ -49,6 +49,17 @@ export async function POST(request: NextRequest) {
     // Validate request body
     const validatedData = monsterFormSchema.parse(body);
 
+    const existingMonster = await prisma.monster.findFirst({
+      where: { name: validatedData.name },
+    });
+
+    if (existingMonster) {
+      return NextResponse.json(
+        { error: 'Já existe um monstro com este nome' },
+        { status: 400 },
+      );
+    }
+
     // Create monster with related data
     const monster = await prisma.monster.create({
       data: {
@@ -140,94 +151,101 @@ export async function POST(request: NextRequest) {
 
         // Create related data if enabled
         attacks:
-          validatedData.is_attacks !== undefined && validatedData.attack_name
+          validatedData.is_attacks && validatedData.attacks?.length
             ? {
-                create: [
-                  {
-                    is_attack_simple: validatedData.is_attack_simple,
-                    name: validatedData.attack_name,
-                    interval: validatedData.attack_interval,
-                    min: validatedData.attack_min,
-                    max: validatedData.attack_max,
-                    chance: validatedData.attack_chance,
-                    range: validatedData.attack_range,
-                    speedchange: validatedData.attack_speedchange,
-                    duration: validatedData.attack_duration,
-                    target: validatedData.attack_target,
-                    attack_attribute_key: validatedData.attack_attribute_key,
-                    attack_attribute_value:
-                      validatedData.attack_attribute_value,
-                  },
-                ],
+                create: validatedData.attacks.map((attack) => ({
+                  is_attack_simple: attack.isSimple ?? false,
+                  name: attack.name,
+                  interval: attack.interval,
+                  min: attack.min,
+                  max: attack.max,
+                  chance: attack.chance ?? 0,
+                  range: attack.range ?? 0,
+                  skill: attack.skill ?? 0,
+                  attack: attack.attack ?? 0,
+                  radius: attack.radius ?? 0,
+                  target: attack.target ?? 0,
+                  attributes:
+                    attack.hasAttributes && attack.attributes?.length
+                      ? {
+                          create: attack.attributes
+                            .filter((attr) => attr.key && attr.value)
+                            .map((attr) => ({
+                              key: attr.key!,
+                              value: attr.value!,
+                            })),
+                        }
+                      : undefined,
+                })),
               }
             : undefined,
 
         defenses:
-          validatedData.is_defenses !== undefined && validatedData.defense_name
+          validatedData.is_defenses !== undefined &&
+          validatedData.defenses?.length
             ? {
-                create: {
-                  name: validatedData.defense_name,
-                  interval: validatedData.defense_interval,
-                  chance: validatedData.defense_chance,
-                  min: validatedData.defense_min,
-                  max: validatedData.defense_max,
-                  speedchange: validatedData.defense_speedchange,
-                  duration: validatedData.defense_duration,
-                  attribute_key: validatedData.defense_atribute_key,
-                  attribute_value: validatedData.defense_attribute_value,
-                },
+                create: validatedData.defenses.map((defense) => ({
+                  name: defense.defense_name ?? '',
+                  interval: defense.defense_interval,
+                  chance: defense.defense_chance,
+                  min: defense.defense_min,
+                  max: defense.defense_max,
+                  speedchange: defense.defense_speedchange,
+                  duration: defense.defense_duration,
+                  attribute_key: defense.defense_atribute_key,
+                  attribute_value: defense.defense_attribute_value,
+                })),
               }
             : undefined,
 
         // Removed immunities property because it does not exist in the Monster model
 
         voices:
-          validatedData.is_voices !== undefined && validatedData.voice_sentence
+          validatedData.is_voices !== undefined && validatedData.voices?.length
             ? {
-                create: {
+                create: validatedData.voices.map((voice) => ({
                   interval: validatedData.voices_interval,
                   chance: validatedData.voices_chance,
-                  sentence: validatedData.voice_sentence,
-                  yell: validatedData.voice_yell,
-                },
+                  sentence: voice.voice_sentence ?? '',
+                  yell: voice.voice_yell,
+                })),
               }
             : undefined,
 
         summons:
-          validatedData.is_summons !== undefined && validatedData.summon_name
+          validatedData.is_summons !== undefined &&
+          validatedData.summons?.length
             ? {
-                create: {
+                create: validatedData.summons.map((summon) => ({
                   maxSummons: validatedData.summons_max,
-                  name: validatedData.summon_name,
-                  interval: validatedData.summon_interval,
-                  chance: validatedData.summon_chance,
-                  max: validatedData.summon_max,
-                },
+                  name: summon.summon_name ?? '',
+                  interval: summon.summon_interval,
+                  chance: summon.summon_chance,
+                  max: summon.summon_max,
+                })),
               }
             : undefined,
 
-        loot: validatedData.is_loot
-          ? {
-              create: {
-                is_loot: validatedData.is_loot,
-                is_inside_container: validatedData.is_inside_container,
-                itemId: validatedData.loot_item_id,
-                itemName: validatedData.loot_item_name,
-                chance: validatedData.loot_item_chance,
-                countMax: validatedData.loot_item_countmax,
-              },
-            }
-          : undefined,
+        loot:
+          validatedData.is_loot && validatedData.loot.length
+            ? {
+                create: validatedData.loot.map((item) => ({
+                  is_inside_container: validatedData.is_inside_container,
+                  itemId: item.loot_item_id,
+                  itemName: item.loot_item_name,
+                  chance: item.loot_item_chance,
+                  countMax: item.loot_item_countmax,
+                })),
+              }
+            : undefined,
 
         // Event script
         events:
-          validatedData.is_monster_event_script && validatedData.event_name
+          validatedData.is_monster_event_script && validatedData.events.length
             ? {
-                create: [
-                  {
-                    name: validatedData.event_name,
-                  },
-                ],
+                create: validatedData.events.map((event) => ({
+                  name: event.event_name ?? '',
+                })),
               }
             : undefined,
       },

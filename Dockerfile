@@ -27,8 +27,10 @@ ENV PORT=3000
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Cria o diretório .next com permissões corretas
-RUN mkdir -p /app/.next/cache && chown -R nextjs:nodejs /app
+# Cria o diretório .next e a pasta de migrations, garantindo as permissões corretas
+RUN mkdir -p /app/.next/cache \
+    && mkdir -p /app/prisma/migrations \
+    && chown -R nextjs:nodejs /app
 
 # Muda para o usuário não-root
 USER nextjs

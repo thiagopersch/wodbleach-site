@@ -18,7 +18,8 @@ export async function GET() {
       ),
       byDifficulty: monsters.reduce(
         (acc, monster) => {
-          const score = monster.experience + monster.healthMax / 10 + monster.speed / 10;
+          const score =
+            monster.experience + monster.healthMax / 10 + monster.speed / 10;
           let difficulty: string;
 
           if (score < 100) difficulty = 'Easy';
@@ -33,25 +34,43 @@ export async function GET() {
       ),
       averageExperience:
         monsters.length > 0
-          ? Math.round(monsters.reduce((sum, monster) => sum + monster.experience, 0) / monsters.length)
+          ? Math.round(
+              monsters.reduce((sum, monster) => sum + monster.experience, 0) /
+                monsters.length,
+            )
           : 0,
       averageHealth:
         monsters.length > 0
-          ? Math.round(monsters.reduce((sum, monster) => sum + monster.healthMax, 0) / monsters.length)
+          ? Math.round(
+              monsters.reduce((sum, monster) => sum + monster.healthMax, 0) /
+                monsters.length,
+            )
           : 0,
-      totalExperience: monsters.reduce((sum, monster) => sum + monster.experience, 0),
+      totalExperience: monsters.reduce(
+        (sum, monster) => sum + monster.experience,
+        0,
+      ),
       mostPowerful:
         monsters.length > 0
-          ? monsters.reduce((max, monster) => (monster.experience > max.experience ? monster : max))
+          ? monsters.reduce((max, monster) =>
+              monster.experience > max.experience ? monster : max,
+            )
           : null,
       recentlyCreated: monsters
-        .sort((a, b) => new Date(b.created_at ?? 0).getTime() - new Date(a.created_at ?? 0).getTime())
+        .sort(
+          (a, b) =>
+            new Date(b.created_at ?? 0).getTime() -
+            new Date(a.created_at ?? 0).getTime(),
+        )
         .slice(0, 5),
     };
 
     return NextResponse.json(stats);
   } catch (error) {
     console.error('Error fetching monster stats:', error);
-    return NextResponse.json({ error: 'Failed to fetch monster statistics' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch monster statistics' },
+      { status: 500 },
+    );
   }
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import type { MonsterFormData } from '@/app/(pages)/gameplay/monsters/_hooks/schemas';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -18,7 +19,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
-import type { UseFormReturn } from 'react-hook-form';
+import { useFieldArray, type UseFormReturn } from 'react-hook-form';
 
 interface DefensesSectionProps {
   form: UseFormReturn<MonsterFormData>;
@@ -26,6 +27,10 @@ interface DefensesSectionProps {
 
 export function DefensesSection({ form }: DefensesSectionProps) {
   const isDefensesEnabled = form.watch('is_defenses');
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: 'defenses',
+  });
 
   return (
     <Card>
@@ -111,199 +116,253 @@ export function DefensesSection({ form }: DefensesSectionProps) {
 
             <div className="space-y-4">
               <h4 className="text-sm font-medium">Defesa Ativa</h4>
+              {fields.map((field, index) => (
+                <div key={field.id} className="space-y-4 rounded-md border p-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <FormField
+                      control={form.control}
+                      name={`defenses.${index}.defense_name`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Nome da Defesa</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Ex: healing, speed"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            Tipo de defesa ativa
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <FormField
-                  control={form.control}
-                  name="defense_name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nome da Defesa</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ex: healing, speed" {...field} />
-                      </FormControl>
-                      <FormDescription>Tipo de defesa ativa</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    <FormField
+                      control={form.control}
+                      name={`defenses.${index}.defense_interval`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Intervalo</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              min="0"
+                              placeholder="0"
+                              {...field}
+                              onChange={(e) =>
+                                field.onChange(
+                                  Number.parseInt(e.target.value) || 0,
+                                )
+                              }
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            Intervalo entre usos (ms)
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                <FormField
-                  control={form.control}
-                  name="defense_interval"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Intervalo</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          min="0"
-                          placeholder="0"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(Number.parseInt(e.target.value) || 0)
-                          }
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        Intervalo entre usos (ms)
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    <FormField
+                      control={form.control}
+                      name={`defenses.${index}.defense_chance`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Chance</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              min="0"
+                              max="100"
+                              placeholder="0"
+                              {...field}
+                              onChange={(e) =>
+                                field.onChange(
+                                  Number.parseInt(e.target.value) || 0,
+                                )
+                              }
+                            />
+                          </FormControl>
+                          <FormDescription>Chance de usar (%)</FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                <FormField
-                  control={form.control}
-                  name="defense_chance"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Chance</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          min="0"
-                          max="100"
-                          placeholder="0"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(Number.parseInt(e.target.value) || 0)
-                          }
-                        />
-                      </FormControl>
-                      <FormDescription>Chance de usar (%)</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    <FormField
+                      control={form.control}
+                      name={`defenses.${index}.defense_min`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Valor Mínimo</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              min="0"
+                              placeholder="0"
+                              {...field}
+                              onChange={(e) =>
+                                field.onChange(
+                                  Number.parseInt(e.target.value) || 0,
+                                )
+                              }
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            Valor mínimo do efeito
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                <FormField
-                  control={form.control}
-                  name="defense_min"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Valor Mínimo</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          min="0"
-                          placeholder="0"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(Number.parseInt(e.target.value) || 0)
-                          }
-                        />
-                      </FormControl>
-                      <FormDescription>Valor mínimo do efeito</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    <FormField
+                      control={form.control}
+                      name={`defenses.${index}.defense_max`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Valor Máximo</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              min="0"
+                              placeholder="0"
+                              {...field}
+                              onChange={(e) =>
+                                field.onChange(
+                                  Number.parseInt(e.target.value) || 0,
+                                )
+                              }
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            Valor máximo do efeito
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                <FormField
-                  control={form.control}
-                  name="defense_max"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Valor Máximo</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          min="0"
-                          placeholder="0"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(Number.parseInt(e.target.value) || 0)
-                          }
-                        />
-                      </FormControl>
-                      <FormDescription>Valor máximo do efeito</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    <FormField
+                      control={form.control}
+                      name={`defenses.${index}.defense_speedchange`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Mudança de Velocidade</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              placeholder="0"
+                              {...field}
+                              onChange={(e) =>
+                                field.onChange(
+                                  Number.parseInt(e.target.value) || 0,
+                                )
+                              }
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            Alteração de velocidade
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
 
-                <FormField
-                  control={form.control}
-                  name="defense_speedchange"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Mudança de Velocidade</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="0"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(Number.parseInt(e.target.value) || 0)
-                          }
-                        />
-                      </FormControl>
-                      <FormDescription>Alteração de velocidade</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <FormField
+                      control={form.control}
+                      name={`defenses.${index}.defense_duration`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Duração</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              min="0"
+                              placeholder="0"
+                              {...field}
+                              onChange={(e) =>
+                                field.onChange(
+                                  Number.parseInt(e.target.value) || 0,
+                                )
+                              }
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            Duração do efeito (ms)
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <FormField
-                  control={form.control}
-                  name="defense_duration"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Duração</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          min="0"
-                          placeholder="0"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(Number.parseInt(e.target.value) || 0)
-                          }
-                        />
-                      </FormControl>
-                      <FormDescription>Duração do efeito (ms)</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    <FormField
+                      control={form.control}
+                      name={`defenses.${index}.defense_atribute_key`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Chave do Atributo</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Ex: areaEffect" {...field} />
+                          </FormControl>
+                          <FormDescription>
+                            Chave do atributo especial
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                <FormField
-                  control={form.control}
-                  name="defense_atribute_key"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Chave do Atributo</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ex: areaEffect" {...field} />
-                      </FormControl>
-                      <FormDescription>
-                        Chave do atributo especial
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    <FormField
+                      control={form.control}
+                      name={`defenses.${index}.defense_attribute_value`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Valor do Atributo</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Ex: blueshimmer" {...field} />
+                          </FormControl>
+                          <FormDescription>
+                            Valor do atributo especial
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
 
-                <FormField
-                  control={form.control}
-                  name="defense_attribute_value"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Valor do Atributo</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ex: blueshimmer" {...field} />
-                      </FormControl>
-                      <FormDescription>
-                        Valor do atributo especial
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() => remove(index)}
+                  >
+                    Remover Defesa
+                  </Button>
+                </div>
+              ))}
+              <Button
+                type="button"
+                onClick={() =>
+                  append({
+                    defense_name: '',
+                    defense_interval: 0,
+                    defense_chance: 0,
+                    defense_min: 0,
+                    defense_max: 0,
+                    defense_speedchange: 0,
+                    defense_duration: 0,
+                    defense_atribute_key: '',
+                    defense_attribute_value: '',
+                  })
+                }
+              >
+                Adicionar Defesa
+              </Button>
             </div>
           </>
         )}
