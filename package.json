@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "docker:up": "docker compose -f ./docker-compose.yml up --watch --build",
+    "docker:up": "sudo chown -R 999:999 ;  docker compose -f ./docker-compose.yml up --watch --build",
     "docker:down": "docker compose down -v",
     "build": "next build --turbopack",
     "start": "next start",

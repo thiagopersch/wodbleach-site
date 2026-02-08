@@ -17,7 +17,10 @@ export const lootSchema = z
     useItemId: z.boolean().default(true),
     loot_item_id: z.number().min(0),
     loot_item_name: z.string().max(100),
-    loot_item_chance: z.number().min(0).max(100),
+    loot_item_chance: z
+      .number()
+      .min(0)
+      .max(100, { error: 'Chance deve ser entre 0 e 100' }),
     loot_item_countmax: z.number().min(0),
   })
   .refine(

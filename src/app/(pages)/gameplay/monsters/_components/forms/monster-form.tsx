@@ -60,6 +60,8 @@ export function MonsterForm({
     mode: 'onChange',
   });
 
+  console.log(form);
+
   const handleSubmit = async (data: MonsterFormData) => {
     await onSubmit(data);
     toast.success(

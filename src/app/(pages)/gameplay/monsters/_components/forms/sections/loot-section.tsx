@@ -69,7 +69,7 @@ export function LootSection({ form }: LootSectionProps) {
           <>
             <FormField
               control={form.control}
-              name={`loot.${fields.length}.is_inside_container`}
+              name="is_inside_container"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                   <div className="space-y-0.5">
@@ -233,7 +233,6 @@ export function LootSection({ form }: LootSectionProps) {
                 onClick={() =>
                   append({
                     useItemId: true,
-                    is_inside_container: false,
                     loot_item_id: 0,
                     loot_item_name: '',
                     loot_item_chance: 0,
